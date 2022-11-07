@@ -7,7 +7,7 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
 	$password_check = $_POST['repeatPassword'];
     $isUsernameValid = filter_var($username, FILTER_VALIDATE_REGEXP, ["options" => ["regexp" => "/^[a-zA-Z][A-Za-z0-9\d_]{5,25}$/"]]);
-    $pwdLenght = mb_strlen($password);
+    $pwdLenght = strlen($password);
     $result = 'Error';
 	$msg = '';
 	
@@ -23,7 +23,7 @@ if (isset($_POST['register'])) {
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
 		// controllo che l'username richiesto non sia già in uso
         $query = "
-            SELECT UserID
+            SELECT id
             FROM users
             WHERE username = :username";
 
@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
         $user_check = $check->fetchAll(PDO::FETCH_ASSOC);
 		// controllo che la mail inserita non sia già presente nel database
         $query = "
-			SELECT UserID
+			SELECT id
 			FROM users
 			WHERE email = :email";
 		$check = $pdo->prepare($query);
