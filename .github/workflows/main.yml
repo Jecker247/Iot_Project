@@ -14,4 +14,4 @@ jobs:
         target-server: 82.61.87.38
         remote-user: gitUser
         private-ssh-key: ${{ secrets.SSH_PASSWORD }}
-        destination-path: ./html/html/
+        destination-path: /var/www/html/html/
