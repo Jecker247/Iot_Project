@@ -11,11 +11,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
+      - name: Insall and Build
+        uses: |
+          npm install
+          npm run build --if-present
       - name: Archive production artifact
         uses: actions/upload-artifact@main
         with:
           name: dist
-          path: /
+          path: dist
   deploy:
     name: Deploy 🚀
     needs: build
@@ -27,7 +31,7 @@ jobs:
         uses: actions/download-artifact@main
         with: 
           name: dist
-          path: /
+          path: dist
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with: 
