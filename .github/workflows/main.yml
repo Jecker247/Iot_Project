@@ -12,6 +12,6 @@ jobs:
       uses: SamKirkland/web-deploy@v1
       with:
         target-server: 82.61.87.38
-        remote-user: gitUser
+        remote-user: jecker247
         private-ssh-key: ${{ secrets.SSH_PASSWORD }}
         destination-path: /var/www/html/html/
