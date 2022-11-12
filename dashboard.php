@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 session_start();
-require_once('../config/database.php');
+include('config/database.php');
 ?>
 
 <html lang="en-US">
@@ -16,7 +16,6 @@ require_once('../config/database.php');
 <?php
 if (isset($_SESSION['session_id'])) {
     $session_user = $_SESSION['session_user'];
-
     //$path = "./Data/".$session_user;
     ?>
     <div class="header">
@@ -50,16 +49,20 @@ if (isset($_SESSION['session_id'])) {
                 <div id="folderContainer">
                     <div class="folderRow">
                         <?php
-                        /* creazione cartelle dell'utente */
-                        $query="SELECT
-                        FROM users
-                        WHERE users=$session_user";
-
-                        $files_folders = $pdo->prepare($query);
-                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row) {
-                        printf("{$row['email']}\n");
-                        }
+                            /* visone cartelle e files dell'utente */
+                            /*
+                            $query="SELECT files.percorso_file, files.nome_file
+                            FROM users
+                            INNER JOIN users ON users.id=files.idutente
+                            WHERE users=$session_user";
+                            $files_folders = $pdo->prepare($query);
+                            //$files_folders->bindParam(':username', $session_user, PDO::PARAM_STR);
+                            //$files_folders->execute();
+                            $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($rows as $row) {
+                                printf("{$row['email']}\n");
+                            }
+                            */
                         ?>
                     </div>
                 </div>
