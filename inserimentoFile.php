@@ -20,7 +20,7 @@ session_start();
             echo "Size file: " . $file["size"] . "<pre></pre>";
             // PARTE UPLOAD
             //TENGO CASO SENZA FOLDER
-            $uploadDir = __DIR__ ."Data".DIRECTORY_SEPARATOR.$user;           // /var/www/html/html
+            $uploadDir = __DIR__ .DIRECTORY_SEPARATOR."Data".DIRECTORY_SEPARATOR.$user;           // /var/www/html/html
             $fileName = basename($file['name']);
             move_uploaded_file($file['tmp_name'],$uploadDir.DIRECTORY_SEPARATOR.$fileName);
             // fine upload file
