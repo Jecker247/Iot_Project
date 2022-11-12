@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 session_start();
-include('config/database.php');
 ?>
 
 <html lang="en-US">
@@ -16,6 +15,7 @@ include('config/database.php');
 <?php
 if (isset($_SESSION['session_id'])) {
     $session_user = $_SESSION['session_user'];
+
     //$path = "./Data/".$session_user;
     ?>
     <div class="header">
@@ -48,22 +48,6 @@ if (isset($_SESSION['session_id'])) {
             <div class="gridDiv">
                 <div id="folderContainer">
                     <div class="folderRow">
-                        <?php
-                            /* visone cartelle e files dell'utente */
-                            /*
-                            $query="SELECT files.percorso_file, files.nome_file
-                            FROM users
-                            INNER JOIN users ON users.id=files.idutente
-                            WHERE users=$session_user";
-                            $files_folders = $pdo->prepare($query);
-                            //$files_folders->bindParam(':username', $session_user, PDO::PARAM_STR);
-                            //$files_folders->execute();
-                            $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                            foreach($rows as $row) {
-                                printf("{$row['email']}\n");
-                            }
-                            */
-                        ?>
                     </div>
                 </div>
             </div>
@@ -73,31 +57,31 @@ if (isset($_SESSION['session_id'])) {
                 </div>
                 <div class="internalGridright" id="insertModel">
 
-                    <form action="/dashboard.php">
+                    <form action="inserimentoFile.php" method="post" enctype="multipart/form-data">
                         <label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
-                        <input type="file" style="height:30px; width:350px"></input>
+                        <input type="file" name="file" style="height:30px; width:350px"></input>
                         <input type="submit" value="Submit" style="height:20px; width:120px"></input>
                     </form><br>
 
-                    <form action="/dashboard.php">
+                    <form action="dashboard.php">
                         <label for="RemoveFile" style="font-weight: bold;"  >Remove file in Cloud</label><br>
                         <input type="text" placeholder="name file to remove" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
                     </form><br>
 
-                    <form action="/dashboard.php">
+                    <form action="dashboard.php">
                         <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
                         <input type="text" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
                     </form><br>
 
-                    <form action="/dashboard.php">
+                    <form action="dashboard.php">
                         <label for="ModifyFolder" style="font-weight: bold;">Modify folder in Cloud</label><br>
                         <input type="text" placeholder="new name folder" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
                     </form><br>
 
-                    <form action="/dashboard.php">
+                    <form action="dashboard.php">
                         <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
                         <input type="text" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
@@ -114,3 +98,4 @@ if (isset($_SESSION['session_id'])) {
 ?>
 </body>
 </html>
+
