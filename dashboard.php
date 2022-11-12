@@ -68,10 +68,37 @@
 						<div id="chartContainer" style=" width: 100%; height: 300px;"></div>
 					</div>
 					<div class="internalGridright" id="insertModel">
-						<form>
-							<label for="UploadFile">insert file to upload in Cloud</label>
-							<input type="file"></input>
-						</form>
+
+						<form action="/dashboard.php">
+							<label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
+							<input type="file" style="height:30px; width:350px"></input>
+                            <input type="submit" value="Submit" style="height:20px; width:120px"></input>
+						</form><br>
+
+                        <form action="/dashboard.php">
+                            <label for="RemoveFile" style="font-weight: bold;"  >Remove file in Cloud</label><br>
+                            <input type="text" placeholder="name file to remove" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
+                        </form><br>
+
+                        <form action="/dashboard.php">
+                            <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
+                            <input type="text" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
+                        </form><br>
+
+                        <form action="/dashboard.php">
+                            <label for="ModifyFolder" style="font-weight: bold;">Modify folder in Cloud</label><br>
+                            <input type="text" placeholder="new name folder" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
+                        </form><br>
+
+                        <form action="/dashboard.php">
+                            <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
+                            <input type="text" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
+                        </form>
+
 					</div>
 				</div>
 			</div>
