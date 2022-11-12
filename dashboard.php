@@ -57,7 +57,7 @@
                                 $files_folders = $pdo->prepare($query);
                                 $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
                                 foreach($rows as $row) {
-                                printf("{$row['nome_file']} {$row['percorso_file']}\n");
+                                printf("{$row['email']}\n");
                                 }
                             ?>
 						</div>
