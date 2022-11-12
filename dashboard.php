@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <?php
 	session_start();
+    require_once('../config/database.php');
 ?>
-
 <html lang="en-US">
     <head>
         <title>Cloud</title>
@@ -48,6 +48,18 @@
 				<div class="gridDiv">
 					<div id="folderContainer">
 						<div class="folderRow">
+                            <?php
+                            /* creazione cartelle dell'utente */
+                                $query="SELECT * 
+                                        FROM users
+                                        WHERE users=$session_user";
+
+                                $files_folders = $pdo->prepare($query);
+                                $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
+                                foreach($rows as $row) {
+                                printf("{$row['nome_file']} {$row['percorso_file']}\n");
+                                }
+                            ?>
 						</div>
 					</div>
 				</div>
