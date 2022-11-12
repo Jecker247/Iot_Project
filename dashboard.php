@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 session_start();
+require_once('../config/database.php');
 ?>
 
 <html lang="en-US">
@@ -48,6 +49,18 @@ if (isset($_SESSION['session_id'])) {
             <div class="gridDiv">
                 <div id="folderContainer">
                     <div class="folderRow">
+                        <?php
+                        /* creazione cartelle dell'utente */
+                        $query="SELECT
+                        FROM users
+                        WHERE users=$session_user";
+
+                        $files_folders = $pdo->prepare($query);
+                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($rows as $row) {
+                        printf("{$row['email']}\n");
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
