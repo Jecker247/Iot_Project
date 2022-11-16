@@ -48,6 +48,34 @@ if (isset($_SESSION['session_id'])) {
             <div class="gridDiv">
                 <div id="folderContainer">
                     <div class="folderRow">
+                        <?php
+                        /* creazione cartelle dell'utente */
+                        /*
+                        $query="SELECT
+                        FROM users
+                        WHERE users=$session_user";
+
+                        $files_folders = $pdo->prepare($query);
+                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($rows as $row) {
+                            printf("{$row['email']}\n");
+                        }
+                        */
+                        /* visone cartelle e files dell'utente */
+                        /*
+                        $query="SELECT files.percorso_file, files.nome_file
+                        FROM users
+                        INNER JOIN users ON users.id=files.idutente
+                        WHERE users=$session_user";
+                        $files_folders = $pdo->prepare($query);
+                        //$files_folders->bindParam(':username', $session_user, PDO::PARAM_STR);
+                        //$files_folders->execute();
+                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($rows as $row) {
+                            printf("{$row['email']}\n");
+                        }
+                        */
+                        ?>
                     </div>
                 </div>
             </div>
