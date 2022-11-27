@@ -76,6 +76,8 @@ if (isset($_SESSION['session_id'])) {
                         }
                         */
                         ?>
+
+
                     </div>
                 </div>
             </div>
@@ -84,8 +86,8 @@ if (isset($_SESSION['session_id'])) {
                     <div id="chartContainer" style=" width: 100%; height: 300px;"></div>
                 </div>
                 <div class="internalGridright" id="insertModel">
-
-                    <form action="inserimentoFile.php" method="post" enctype="multipart/form-data">
+                    <div id="barraGridRight" style="overflow-y: scroll; height: 280px">
+                    <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
                         <label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
                         <input type="file" name="file" style="height:30px; width:350px"></input>
                         <input type="submit" value="Submit" style="height:20px; width:120px"></input>
@@ -97,9 +99,9 @@ if (isset($_SESSION['session_id'])) {
                         <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
                     </form><br>
 
-                    <form action="dashboard.php">
+                    <form action="inserimentoFolder.php" method="post">
                         <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
-                        <input type="text" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                        <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
                     </form><br>
 
@@ -113,8 +115,14 @@ if (isset($_SESSION['session_id'])) {
                         <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
                         <input type="text" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                         <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
-                    </form>
+                    </form><br>
 
+                    <form action="dashboard.php">
+                        <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
+                        <input type="text" placeholder="name file to download"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                        <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
+                    </form>
+                    </div>
                 </div>
             </div>
         </div>
