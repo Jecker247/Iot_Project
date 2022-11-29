@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <?php
+include("./config/dimensions.php");
 session_start();
+if(isset($_SESSION['session_id'])){
+    $session_user = $_SESSION['session_user'];
+    $data = DimensionsUser($session_user);
+}
 ?>
 
 <html lang="en-US">
@@ -10,13 +15,32 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="This page contains the user interface that allow users to upload and download file from our Cloud Storage">
     <link rel="stylesheet" href="./style/style.css">
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                backgroundColor: "#F9F9FF",
+                theme: "light1",
+                title:{
+                    text: "Space Usage's Diagram ( 5GB )"
+                },
+                data: [{
+                    type: "pie",
+                    explodeOnClick: true,
+                    startAngle:  -45,
+                    indexLabelFontSize: 15,
+                    indexLabel: "{label} - #percent%",
+                    yValueFormatString: "###.##### MB",
+                    dataPoints: <?php echo json_encode($data, JSON_NUMERIC_CHECK); ?>
+                }]
+            });
+            chart.render();
+        }
+    </script>
 </head>
 <body>
 <?php
 if (isset($_SESSION['session_id'])) {
-    $session_user = $_SESSION['session_user'];
-
-    //$path = "./Data/".$session_user;
     ?>
     <div class="header">
         <div class="inner-header">
@@ -84,44 +108,45 @@ if (isset($_SESSION['session_id'])) {
             <div class="gridDiv" id="gridDivright">
                 <div class="internalGridright" id="dimensions">
                     <div id="chartContainer" style=" width: 100%; height: 300px;"></div>
+                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 </div>
                 <div class="internalGridright" id="insertModel">
-                    <div id="barraGridRight" style="overflow-y: scroll; height: 280px">
-                    <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
-                        <label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
-                        <input type="file" name="file" style="height:30px; width:350px"></input>
-                        <input type="submit" value="Submit" style="height:20px; width:120px"></input>
-                    </form><br>
+                    <div id="barraGridRight" style="overflow-y: scroll; height: 280px;overflow-x:hidden;">
+                        <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
+                            <label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
+                            <input type="file" name="file" style="height:30px; width:350px"></input>
+                            <input type="submit" value="Submit" style="height:20px; width:120px"></input>
+                        </form><br>
 
-                    <form action="dashboard.php">
-                        <label for="RemoveFile" style="font-weight: bold;"  >Remove file in Cloud</label><br>
-                        <input type="text" placeholder="name file to remove" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
-                        <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
-                    </form><br>
+                        <form action="rimozioneFile.php" method="post">
+                            <label for="RemoveFile" style="font-weight: bold;"  >Remove file in Cloud</label><br>
+                            <input type="text" name="nomeFile" placeholder="name file to remove" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
+                        </form><br>
 
-                    <form action="inserimentoFolder.php" method="post">
-                        <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
-                        <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
-                        <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
-                    </form><br>
+                        <form action="inserimentoFolder.php" method="post">
+                            <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
+                            <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
+                        </form><br>
 
-                    <form action="dashboard.php">
-                        <label for="ModifyFolder" style="font-weight: bold;">Modify folder in Cloud</label><br>
-                        <input type="text" placeholder="new name folder" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
-                        <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
-                    </form><br>
+                        <form action="dashboard.php">
+                            <label for="ModifyFolder" style="font-weight: bold;">Modify folder in Cloud</label><br>
+                            <input type="text" placeholder="new name folder" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
+                        </form><br>
 
-                    <form action="dashboard.php">
-                        <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
-                        <input type="text" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
-                        <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
-                    </form><br>
+                        <form action="rimozioneFolder.php" method="post">
+                            <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
+                            <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
+                        </form><br>
 
-                    <form action="dashboard.php">
-                        <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
-                        <input type="text" placeholder="name file to download"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
-                        <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
-                    </form>
+                        <form action="dashboard.php">
+                            <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
+                            <input type="text" placeholder="name file to download"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
+                        </form>
                     </div>
                 </div>
             </div>

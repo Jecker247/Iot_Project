@@ -1,24 +1,34 @@
 <?php
-// DA TESTARE
 session_start();
 $user = $_SESSION['session_user'];
-$nomefile = $_POST["nomeFile"];
+if(isset($_POST["nomeFile"])) {
+    $nomefile = $_POST["nomeFile"];
 //apro la cartella user
-$Directory = __DIR__."/Data/".$user;
-$handle = opendir($Directory);
-$trovato = false;
-while(($file= readdir($handle))!= false){
-    if($file["name"]==$nomefile){
-        //cancello file
-        $trovato = true;
-        @unlink($Directory ."/". $file);
+    $Directory = __DIR__ . "/Data/" . $user . "/";
+    $trovato = false;
+
+//apertura percorso
+    $folder = opendir($Directory);
+    while ($file = readdir($folder)) {
+        #echo $file."<br/>";
+        if (is_file($Directory . $file)) {
+            #CONTROLLO SOLO I FILE
+            #echo $file."<br/>";
+            if ($file == $nomefile) {
+                #CANCELLO IL FILE
+                @unlink($Directory . $file);
+                $trovato = true;
+            }
+        }
+    }
+
+    $folder = closedir($folder);
+
+    if ($trovato) {
+        // avviso ok
+    } else {
+        // avviso negativo
     }
 }
-
-if($trovato){
-    // risultato ok
-}else{
-    header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
-}
-
+header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
 ?>
