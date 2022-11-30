@@ -69,41 +69,39 @@ if (isset($_SESSION['session_id'])) {
             <hr>
         </div>
         <div id="gridContainer">
-            <div class="gridDiv">
-                <div id="folderContainer">
-                    <div class="folderRow">
-                        <?php
-                        /* creazione cartelle dell'utente */
-                        /*
-                        $query="SELECT
-                        FROM users
-                        WHERE users=$session_user";
+            <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto; grid-template-rows: auto auto auto auto auto;">
+                <?php
+                // ricerca file e cartelle
+                $Dir = __DIR__."/Data/".$session_user."/";
 
-                        $files_folders = $pdo->prepare($query);
-                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row) {
-                            printf("{$row['email']}\n");
+                $folder = opendir($Dir."/");
+                while ($f = readdir($folder)) {
+                    if (is_file($Dir."/" . $f)) {
+                        #CONTROLLO SOLO I FILE
+                        /*echo "<a href=\"\"";
+                        echo "<div class=\"\">";
+                        echo "<image src=\"".selezionaIcona($f)."\" class=\"imageIcon\">";
+                        echo "<label>".$f."</label>";
+                        echo "</div></a>";*/
+                    }
+                    if(is_dir($Dir."/" . $f)){
+                        #CONTROLLO SOLO LE CARTELLE
+                        if($f != "." and $f != ".."){
+                            echo "<div>";
+                            //echo "<a href=\"..\dashboard.php?folder=\"\"\"";
+                            echo "<image src=file_icon.png >";               //    /var/www/html/html/img/file_icon.png
+                            echo "<label>".$f."</label>";
+                            //echo "</a>";
+                            echo "</div>";
                         }
-                        */
-                        /* visone cartelle e files dell'utente */
-                        /*
-                        $query="SELECT files.percorso_file, files.nome_file
-                        FROM users
-                        INNER JOIN users ON users.id=files.idutente
-                        WHERE users=$session_user";
-                        $files_folders = $pdo->prepare($query);
-                        //$files_folders->bindParam(':username', $session_user, PDO::PARAM_STR);
-                        //$files_folders->execute();
-                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row) {
-                            printf("{$row['email']}\n");
-                        }
-                        */
-                        ?>
 
+                    }
+                }
 
-                    </div>
-                </div>
+                $folder = closedir($folder);
+
+                ?>
+
             </div>
             <div class="gridDiv" id="gridDivright">
                 <div class="internalGridright" id="dimensions">
