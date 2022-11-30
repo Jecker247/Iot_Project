@@ -13,19 +13,41 @@ if( (isset($_POST["oldname"])) && (isset($_POST["newname"]))) {
     echo $newname . "<pre/>";
 
     $Directory = __DIR__ . "/Data/" . $user . "/";
+    // controllo che new name non è già usato
+    $problem = true;
+
     $folder = opendir($Directory);
     while ($fold = readdir($folder)) {
         if (is_dir($Directory . $fold)) {
             #CONTROLLO SOLO I FOLDER
-            if ($fold == $oldname) {
-                #FOLDER TROVATO
-                if (rename($Directory . $fold, $Directory . $newname)) {
-                    $esito = "Successo";
-                }
+            if ($fold == $newname) {
+                #NEW NAME GIà OCCUPATO
+                $problem=false;
             }
         }
     }
     $folder = closedir($folder);
+    
+    if($problem){
+        $folder = opendir($Directory);
+        while ($fold = readdir($folder)) {
+            if (is_dir($Directory . $fold)) {
+                #CONTROLLO SOLO I FOLDER
+                if ($fold == $oldname) {
+                    #FOLDER TROVATO
+                    if (rename($Directory . $fold, $Directory . $newname)) {
+                        $esito = "Successo";
+                    }
+                }
+            }
+        }
+        $folder = closedir($folder);
+    }
+
+
+
+
+
 }
 header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
 ?>
