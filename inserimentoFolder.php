@@ -10,7 +10,15 @@ echo "test";
             $dir =  $uploadDir.DIRECTORY_SEPARATOR.$folderName;
             //cho $dir;
             //mkdir($dir);
-            echo 'alert('.mkdir($dir, 777).')';
+            if(mkdir($dir, 777)){
+                mkdir($dir, 777);
+                $esito = "Successo";
+                header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+            }else{
+                $esito= "Errore";
+                header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+            }
+
             // creata cartella nel path $dir
 
             // aggiornamento nel database che è statta inserita la cartella
@@ -29,5 +37,5 @@ echo "test";
 
         }
         //teoricamente la cartella è stata inserita
-header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
+//header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
 ?>

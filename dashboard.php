@@ -113,38 +113,40 @@ if (isset($_SESSION['session_id'])) {
                 <div class="internalGridright" id="insertModel">
                     <div id="barraGridRight" style="overflow-y: scroll; height: 280px;overflow-x:hidden;">
                         <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
-                            <label for="UploadFile" style="font-weight: bold;">Insert file to upload in Cloud</label><br>
+                            <label for="UploadFile" style="font-weight: bold;">Insert file to upload</label><br>
                             <input type="file" name="file" style="height:30px; width:350px"></input>
                             <input type="submit" value="Submit" style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="rimozioneFile.php" method="post">
-                            <label for="RemoveFile" style="font-weight: bold;"  >Remove file in Cloud</label><br>
+                            <label for="RemoveFile" style="font-weight: bold;"  >Remove file</label><br>
                             <input type="text" name="nomeFile" placeholder="name file to remove" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                             <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="inserimentoFolder.php" method="post">
-                            <label for="InsertFolder" style="font-weight: bold;">Insert folder in Cloud</label><br>
+                            <label for="InsertFolder" style="font-weight: bold;">Insert folder</label><br>
                             <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                             <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
                         </form><br>
 
-                        <form action="dashboard.php">
-                            <label for="ModifyFolder" style="font-weight: bold;">Modify folder in Cloud</label><br>
-                            <input type="text" placeholder="new name folder" style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                        <form action="modificaFolder.php" method="post">
+                            <label for="ModifyFolder" style="font-weight: bold;">Modify folder</label><br>
+                            <input type="text" name="oldname" placeholder="name folder" style="height:20px; width:150px"></input>
+                            <input type="text" name="newname" placeholder="new name folder" style="height:20px; width:150px"/>
+                            <input type="text" style="visibility:hidden;height:20px; width:18px"/>
                             <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="rimozioneFolder.php" method="post">
-                            <label for="RemoveFolder" style="font-weight: bold;">Remove folder in Cloud</label><br>
+                            <label for="RemoveFolder" style="font-weight: bold;">Remove folder</label><br>
                             <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                             <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
                         </form><br>
 
-                        <form action="dashboard.php">
+                        <form action="downloadFile.php" method="post">
                             <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
-                            <input type="text" placeholder="name file to download"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
+                            <input type="text" name ="downloadFileName" placeholder="name file to download"  style="height:20px; width:150px"></input><input type="text" style="visibility:hidden;height:20px; width:184px"/>
                             <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
                         </form>
                     </div>
@@ -155,6 +157,16 @@ if (isset($_SESSION['session_id'])) {
     <?php
 }else{
     echo "Errore di Login";
+}
+?>
+<?php
+if(isset($_GET["operazione"])){
+    $esito = $_GET["operazione"];
+    if($esito=='Errore'){
+        echo '<script>window.alert("Operazione non riuscita")</script>';
+    }else{
+        echo '<script>window.alert("Operazione eseguita con successo")</script>';
+    }
 }
 ?>
 </body>

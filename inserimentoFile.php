@@ -16,9 +16,27 @@ session_start();
             // PARTE UPLOAD
 
             $uploadDir = __DIR__."/Data/".$user; // /var/www/html/html
-            $fileName=  basename($file['name']);
-            move_uploaded_file($file['tmp_name'], $uploadDir.DIRECTORY_SEPARATOR.$fileName);
+            $esito = "Successo";
+            //check che non sia già presente il file
+            //apertura percorso
+            $esito = "Successo";
+            $folder = opendir($uploadDir."/");
+            while ($f = readdir($folder)) {
+                if (is_file($uploadDir."/" . $f)) {
+                    #CONTROLLO SOLO I FILE
+                    if ($f == $file["name"]) {
+                        $esito= "Errore";
+                    }
+                }
+            }
+            $folder = closedir($folder);
 
+            echo $esito;
+            if($esito == "Successo") {
+                $fileName = basename($file['name']);
+                move_uploaded_file($file['tmp_name'], $uploadDir . DIRECTORY_SEPARATOR . $fileName);
+            }
+            header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
             // eih database ho inserito questo
             /*$query = "
                 INSERT INTO files
@@ -31,12 +49,11 @@ session_start();
             $check->bindParam(':idusername', $idutente, PDO::PARAM_STR);
             $check->bindParam(':percorso', string($uploadDir.DIRECTORY_SEPARATOR.$file["name"]), PDO::PARAM_STR);
             $check->execute();*/
-            // fine upload file
+
 
         }else{  // se errore ritorna subito nella pagina precedente
-            header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
+            $esito= "Errore";
+            header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
         }
 
-    // per tornare nella pagina precedente
-    header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
 ?>

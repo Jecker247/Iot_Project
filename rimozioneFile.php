@@ -26,9 +26,13 @@ if(isset($_POST["nomeFile"])) {
 
     if ($trovato) {
         // avviso ok
+        $esito = "Successo";
+        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
     } else {
         // avviso negativo
+        $esito= "Errore";
+        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
     }
 }
-header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
+
 ?>

@@ -7,6 +7,7 @@ $nomefolder = $_POST["rimFolder"];
 //apro la cartella user
     $Directory = __DIR__ . "/Data/" . $user . "/";
     $trovato = false;
+
 //apertura percorso
     $folder = opendir($Directory);
     while ($fold = readdir($folder)) {
@@ -40,16 +41,21 @@ $nomefolder = $_POST["rimFolder"];
         echo "a";
         $handle1 = closedir($d);*/
         if($cancellare){
+            //cancella cartella
             rmdir($Directory.$nomefolder);
             echo "cancellato";
         }else{
             echo "non posso cancellare";
         }
         // avviso ok
+        $esito = "Successo";
+        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
     } else {
         echo "no<br/>";
+        //echo "<script>window.alert('Testo del messaggio')</script>";
         // avviso negativo
+        $esito= "Errore";
+        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
     }
 
-//header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");*/
 ?>
