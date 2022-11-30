@@ -69,7 +69,7 @@ if (isset($_SESSION['session_id'])) {
             <hr>
         </div>
         <div id="gridContainer">
-            <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto; grid-template-rows: auto auto auto auto auto;">
+            <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto;overflow-y: scroll;">
                 <?php
                 // ricerca file e cartelle
                 $Dir = __DIR__."/Data/".$session_user."/";
@@ -78,20 +78,22 @@ if (isset($_SESSION['session_id'])) {
                 while ($f = readdir($folder)) {
                     if (is_file($Dir."/" . $f)) {
                         #CONTROLLO SOLO I FILE
-                        /*echo "<a href=\"\"";
-                        echo "<div class=\"\">";
-                        echo "<image src=\"".selezionaIcona($f)."\" class=\"imageIcon\">";
-                        echo "<label>".$f."</label>";
-                        echo "</div></a>";*/
+                        echo "<div style='margin:5px'>";
+                        echo "<a href=\"..\dashboard.php?folder=\"\"\" style='text-decoration: inherit;color:black'>";
+                        echo "<img src='./img/File_Icon.png' style='width:50px;height:50px;'>";
+                        echo "<figcaption style='text-align: justify;width:110px;height:70px;word-break: break-all;' >".$f."</figcaption>";
+                        echo "</a>";
+                        echo "</div>";
                     }
                     if(is_dir($Dir."/" . $f)){
                         #CONTROLLO SOLO LE CARTELLE
                         if($f != "." and $f != ".."){
-                            echo "<div>";
-                            //echo "<a href=\"..\dashboard.php?folder=\"\"\"";
-                            echo "<image src=file_icon.png >";               //    /var/www/html/html/img/file_icon.png
-                            echo "<label>".$f."</label>";
-                            //echo "</a>";
+                            #RAPPRESENTAZIONE CARTELLE
+                            echo "<div style='margin:5px'>";
+                            echo "<a href=\"..\dashboard.php?folder=\"\"\" style='text-decoration: inherit;color:black'>";   #\"..\dashboard.php?folder=\"\"\"";
+                            echo "<img src='./img/file_icon.png' style='width:50px;height:50px;'>";
+                            echo "<figcaption style='text-align: justify;word-break: break-all;width:110px;height:50px;'>".$f."</figcaption>";
+                            echo "</a>";
                             echo "</div>";
                         }
 
