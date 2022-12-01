@@ -77,9 +77,11 @@ if (isset($_SESSION['session_id'])) {
                 $folder = opendir($Dir."/");
                 while ($f = readdir($folder)) {
                     if (is_file($Dir."/" . $f)) {
+
+
                         #CONTROLLO SOLO I FILE
                         echo "<div style='margin:5px'>";
-                        echo "<a href=\"..\dashboard.php?folder=\"\"\" style='text-decoration: inherit;color:black'>";
+                        echo "<a href=\"..\dashboard.php?file=\"\"\" style='text-decoration: inherit;color:black'>";
                         echo "<img src='./img/File_Icon.png' style='width:50px;height:50px;'>";
                         echo "<figcaption style='text-align: justify;width:110px;height:70px;word-break: break-all;' >".$f."</figcaption>";
                         echo "</a>";
