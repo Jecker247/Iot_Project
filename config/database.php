@@ -2,7 +2,7 @@
 $config = [
     'db_engine' => 'mysql',
     'db_host' => 'localhost',
-    'db_name' => 'Cloud_Project',
+    'db_name' => 'cloudproject',
     'db_user' => 'web_user',
     'db_password' => 'Pxt5W.13$Kl',
 ];
