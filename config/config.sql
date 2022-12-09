@@ -18,5 +18,3 @@ CREATE TABLE files(
     creationdate DATE NOT NULL,
     creationhour TIME NOT NULL
 );
-
-VALUES (0,:filename, :extension, :mime, :idusername, :percorso, :date, :time);
