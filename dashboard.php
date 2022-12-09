@@ -69,41 +69,43 @@ if (isset($_SESSION['session_id'])) {
             <hr>
         </div>
         <div id="gridContainer">
-            <div class="gridDiv">
-                <div id="folderContainer">
-                    <div class="folderRow">
-                        <?php
-                        /* creazione cartelle dell'utente */
-                        /*
-                        $query="SELECT
-                        FROM users
-                        WHERE users=$session_user";
+            <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto;overflow-y: scroll;">
+                <?php
+                // ricerca file e cartelle
+                $Dir = __DIR__."/Data/".$session_user."/";
 
-                        $files_folders = $pdo->prepare($query);
-                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row) {
-                            printf("{$row['email']}\n");
+                $folder = opendir($Dir."/");
+                while ($f = readdir($folder)) {
+                    if (is_file($Dir."/" . $f)) {
+
+
+                        #CONTROLLO SOLO I FILE
+                        echo "<div style='margin:5px'>";
+                        echo "<a href=\"..\dashboard.php?file=\"\"\" style='text-decoration: inherit;color:black'>";
+                        echo "<img src='./img/File_Icon.png' style='width:50px;height:50px;'>";
+                        echo "<figcaption style='text-align: justify;width:110px;height:70px;word-break: break-all;' >".$f."</figcaption>";
+                        echo "</a>";
+                        echo "</div>";
+                    }
+                    if(is_dir($Dir."/" . $f)){
+                        #CONTROLLO SOLO LE CARTELLE
+                        if($f != "." and $f != ".."){
+                            #RAPPRESENTAZIONE CARTELLE
+                            echo "<div style='margin:5px'>";
+                            echo "<a href=\"..\dashboard.php?folder=\"\"\" style='text-decoration: inherit;color:black'>";   #\"..\dashboard.php?folder=\"\"\"";
+                            echo "<img src='./img/file_icon.png' style='width:50px;height:50px;'>";
+                            echo "<figcaption style='text-align: justify;word-break: break-all;width:110px;height:50px;'>".$f."</figcaption>";
+                            echo "</a>";
+                            echo "</div>";
                         }
-                        */
-                        /* visone cartelle e files dell'utente */
-                        /*
-                        $query="SELECT files.percorso_file, files.nome_file
-                        FROM users
-                        INNER JOIN users ON users.id=files.idutente
-                        WHERE users=$session_user";
-                        $files_folders = $pdo->prepare($query);
-                        //$files_folders->bindParam(':username', $session_user, PDO::PARAM_STR);
-                        //$files_folders->execute();
-                        $rows = $files_folders->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row) {
-                            printf("{$row['email']}\n");
-                        }
-                        */
-                        ?>
 
+                    }
+                }
 
-                    </div>
-                </div>
+                $folder = closedir($folder);
+
+                ?>
+
             </div>
             <div class="gridDiv" id="gridDivright">
                 <div class="internalGridright" id="dimensions">

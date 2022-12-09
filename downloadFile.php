@@ -14,12 +14,22 @@ if(isset($_POST["downloadFileName"])) {
             if ($file == $nomefile) {
                 #TROVATO
                 $esito = "Successo";
-                header("Cache-Control: public");
-                header("Content-Description: File Transfer");
-                header("Content-Disposition: attachment; filename=$file");
-                header("Content-Type: application/zip");
-                header("Content-Transfer-Encoding: binary");
-                readfile($file);
+                $ext = explode(".", $file);
+                 $estensione = ".".$ext[count($ext)-1];
+                if($estensione==".txt"){
+                    $file_url = $Directory.$file;
+                    header('Content-Type: application/octet-stream');
+                    header("Content-Transfer-Encoding: utf-8");
+                    header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\"");
+                    readfile($file_url);
+                }else{
+                    $file_url = $Directory.$file;
+                    header('Content-Type: application/octet-stream');
+                    header("Content-Transfer-Encoding: Binary");
+                    header("Content-disposition: attachment; filename=\"" . basename($file_url) . "\"");
+                    readfile($file_url);
+
+                }
             }
         }
     }

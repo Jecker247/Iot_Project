@@ -8,15 +8,31 @@ session_start();
         $idutente = $_SESSION['id_user'];
         // check  se il file è arrivato correttamente
         if(UPLOAD_ERR_OK == $file["error"]){
-           /* echo "Dati File"."<pre></pre>";
-            echo "Nome file: " . $file["name"] . "<pre></pre>";
-            echo "Tipo file: " . $file["type"] . "<pre></pre>";
-            echo "TmpName file: " . $file["tmp_name"] . "<pre></pre>";
-            echo "Size file: " . $file["size"] . "<pre></pre>";*/
+
+
+            //teoricamente
+            // IF SE è passato un folder
+
+
+           /* $dirUtente = __DIR__."/Data/".$user;
+           // $folderName = "4";
+            //echo $folderName."<pre/>";
+            // ottengo tutte le sottodirectory di utente:
+            $all_dirs = glob($dirUtente.'/*',GLOB_ONLYDIR);
+            print_r($all_dirs);
+            //SE MI DA OGNI POSSIBILE POSSIBILITà MI CERCO LA CARTELLA INTERESSATA
+            foreach($all_dirs as $a){
+                echo $a."<pre/>";
+            }*/
+
+
+
+
+
+            // ALTRIMENTI uso dir base utente
             // PARTE UPLOAD
 
             $uploadDir = __DIR__."/Data/".$user; // /var/www/html/html
-            $esito = "Successo";
             //check che non sia già presente il file
             //apertura percorso
             $esito = "Successo";
@@ -48,8 +64,8 @@ session_start();
             $check->bindParam(':mime', $file["type"], PDO::PARAM_STR);
             $check->bindParam(':idusername', $idutente, PDO::PARAM_STR);
             $check->bindParam(':percorso', string($uploadDir.DIRECTORY_SEPARATOR.$file["name"]), PDO::PARAM_STR);
-            $check->execute();*/
-
+            $check->execute();
+            */
 
         }else{  // se errore ritorna subito nella pagina precedente
             $esito= "Errore";
