@@ -1,19 +1,22 @@
 USE Cloud_Project;
 
 CREATE TABLE users(
-	UserID INT(11) AUTO_INCREMENT NOT NULL,
-	Username VARCHAR(50) NOT NULL UNIQUE,
+	iduser INT(11) AUTO_INCREMENT NOT NULL,
+	username VARCHAR(50) NOT NULL UNIQUE,
 	email VARCHAR(50) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
+    PRIMARY KEY(iduser)
 );
 
 CREATE TABLE files(
-	FileID INT(11) AUTO_INCREMENT NOT NULL,
-	FileName VARCHAR(30) NOT NULL,
-	Extension VARCHAR(6) NOT NULL,
+	idfile INT(11) AUTO_INCREMENT NOT NULL,
+	filename VARCHAR(30) NOT NULL,
+	extension VARCHAR(6) NOT NULL,
 	MIME VARCHAR(30),
-	Possessore INT(11) NOT NULL,
-	PRIMARY KEY (fileID),
-	FOREIGN KEY (Possessore) REFERENCES Users(UserID)
+	pathfile VARCHAR(100) NOT NULL,
+	idusername INT(11) NOT NULL, PRIMARY KEY (idfile), FOREIGN KEY (idusername) REFERENCES users(iduser),
+    creationdate DATE NOT NULL,
+    creationhour TIME NOT NULL
 );
 
+VALUES (0,:filename, :extension, :mime, :idusername, :percorso, :date, :time);
