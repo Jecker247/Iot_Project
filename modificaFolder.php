@@ -9,10 +9,9 @@ if( (isset($_POST["oldname"])) && (isset($_POST["newname"]))) {
     $oldname = $_POST["oldname"];
     $newname = $_POST["newname"];
 
-    echo $oldname . "<pre/>";
-    echo $newname . "<pre/>";
+    $Dir = $_POST["directory"]; // /var/www/html/Data/LucaDaniel   /var/www/html/Data/LucaDaniel/5
 
-    $Directory = __DIR__ . "/Data/" . $user . "/";
+    $Directory = $Dir. "/";
     // controllo che new name non è già usato
     $problem = true;
 
@@ -27,7 +26,7 @@ if( (isset($_POST["oldname"])) && (isset($_POST["newname"]))) {
         }
     }
     $folder = closedir($folder);
-    
+
     if($problem){
         $folder = opendir($Directory);
         while ($fold = readdir($folder)) {
@@ -45,9 +44,6 @@ if( (isset($_POST["oldname"])) && (isset($_POST["newname"]))) {
     }
 
 
-
-
-
 }
-header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
 ?>

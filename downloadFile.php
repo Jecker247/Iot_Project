@@ -4,7 +4,8 @@ $user = $_SESSION['session_user'];
 if(isset($_POST["downloadFileName"])) {
     $nomefile = $_POST["downloadFileName"];
     //apro la cartella user
-    $Directory = __DIR__ . "/Data/" . $user . "/";
+    $Dir = $_POST["directory"];
+    $Directory = $Dir . "/";
     $esito = "Errore";
     //apertura percorso
     $folder = opendir($Directory);
@@ -36,7 +37,7 @@ if(isset($_POST["downloadFileName"])) {
 
     $folder = closedir($folder);
     if($esito =="Errore") {
-        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=" . $esito);
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=" . $esito."&currentdir=".$Dir);
     }
 }
 

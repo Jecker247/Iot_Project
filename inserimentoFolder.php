@@ -1,22 +1,19 @@
 <?php
 session_start();
 $user = $_SESSION['session_user'];
-echo "test";
+
         if(isset($_POST["nomeFolder"])){
             $folderName=$_POST["nomeFolder"];
+            $Dir = $_POST["directory"]; // /var/www/html/Data/LucaDaniel   /var/www/html/Data/LucaDaniel/5
             //nome inserito corretto
-            // dir su cui lavoriamo
-            $uploadDir = __DIR__."/Data/".$user;
-            $dir =  $uploadDir.DIRECTORY_SEPARATOR.$folderName;
-            //cho $dir;
-            //mkdir($dir);
-            if(mkdir($dir, 777)){
-                mkdir($dir, 777);
+            $dir = $Dir."/".$folderName;
+            if(mkdir($dir, 0770)){
+                mkdir($dir, 0770);
                 $esito = "Successo";
-                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
             }else{
                 $esito= "Errore";
-                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
             }
 
             // creata cartella nel path $dir

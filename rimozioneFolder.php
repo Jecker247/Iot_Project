@@ -1,11 +1,15 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL | E_STRICT);
 
 session_start();
 $user = $_SESSION['session_user'];
 
 $nomefolder = $_POST["rimFolder"];
 //apro la cartella user
-    $Directory = __DIR__ . "/Data/" . $user . "/";
+    $Dir = $_POST["directory"];
+    $Directory = $Dir. "/";
     $trovato = false;
 
 //apertura percorso
@@ -19,43 +23,31 @@ $nomefolder = $_POST["rimFolder"];
             }
         }
     }
-
     $folder = closedir($folder);
 
     if ($trovato) {
-        echo "yes<br/>";
-        $d = $Directory.$nomefolder."/";
         $cancellare = true;
-        //impostare i poteri per le nuove cartelle
-        /*$handle1 = opendir($d);
-        //non cancello se contiene file/altri folder
-        while ($f = readdir($d)){
-            echo $f."<br/>";
-            if(is_dir($d.$fold)){
-                $cancellare= false;
-            }
-            if(is_file($d . $f)){
-                $cancellare=false;
+        $directoryDaControllare = $Dir . DIRECTORY_SEPARATOR . $nomefolder . DIRECTORY_SEPARATOR;
+        $checkFolder = opendir($directoryDaControllare);
+        while ($f = readdir($checkFolder)) {
+            if ($f != '.' and $f != '..') {
+                $cancellare = false;
             }
         }
-        echo "a";
-        $handle1 = closedir($d);*/
-        if($cancellare){
+        $checkFolder = closedir($checkFolder);
+        if ($cancellare) {
             //cancella cartella
-            rmdir($Directory.$nomefolder);
-            echo "cancellato";
-        }else{
-            echo "non posso cancellare";
+            rmdir($Directory . $nomefolder);
+            $esito = "Successo";
+            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+        } else {
+            $esito = "Errore";
+            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=" . $esito . "&currentdir=" . $Dir);
         }
-        // avviso ok
-        $esito = "Successo";
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
-    } else {
-        echo "no<br/>";
-        //echo "<script>window.alert('Testo del messaggio')</script>";
-        // avviso negativo
-        $esito= "Errore";
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
+
+    }else{
+        $esito = "Errore";
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
     }
 
 ?>
