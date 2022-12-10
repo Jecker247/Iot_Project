@@ -41,6 +41,15 @@ if(isset($_SESSION['session_id'])){
 <body>
 <?php
 if (isset($_SESSION['session_id'])) {
+    // ricerca file e cartelle    SPOSTATO QUA SOPRA PER TESTING
+    if(isset($_GET['folder'])){
+        $_SESSION['PercorsoAttuale'] = $_SESSION['PercorsoAttuale']."/".$_GET['folder'];
+    }else if(isset($_GET['currentdir'])){
+        $_SESSION['PercorsoAttuale'] = $_GET['currentdir'];
+    }else{
+        $_SESSION['PercorsoAttuale'] = __DIR__."/Data/".$session_user;  //."/"
+    }
+
     ?>
     <div class="header">
         <div class="inner-header">
@@ -67,19 +76,25 @@ if (isset($_SESSION['session_id'])) {
             </div>
             <button id="logoutButton" onclick="window.location.href='./php/logout.php';">logout</button>
             <hr>
+            <div style="position: relative; left: 10px;">
+
+                <?php
+                // <button id="BackButton" class="mainButtonClass" onclick="funzioneTest()"></button>
+                    if($_SESSION['PercorsoAttuale'] == __DIR__."/Data/".$session_user){
+                        echo "<button id='BackButton' class='mainButtonClass' disabled></button>";
+                        echo "<button id='HomeButton' class='mainButtonClass' onclick='location.href='http://serverwebuni.ns0.it:580/dashboard.php'' disabled></button>";
+                    }else{
+                        echo "<button id='BackButton' class='mainButtonClass' onclick='location.href=\"../back.php\"'></button>";
+                        echo "<button id='HomeButton' class='mainButtonClass' onclick='location.href=\"http://serverwebuni.ns0.it:580/dashboard.php\"'></button>";
+                    }
+                ?>
+            </div>
+
         </div>
         <div id="gridContainer">
             <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto;overflow-y: scroll;">
                 <?php
-                // ricerca file e cartelle
-                if(isset($_GET['folder'])){
-                    $_SESSION['PercorsoAttuale'] = $_SESSION['PercorsoAttuale']."/".$_GET['folder'];
-                }else if(isset($_GET['currentdir'])){
-                    $_SESSION['PercorsoAttuale'] = $_GET['currentdir'];
-                }else{
-                    $_SESSION['PercorsoAttuale'] = __DIR__."/Data/".$session_user;  //."/"
-                }
-                
+                // quello sopra era qua
 
                 $folder = opendir($_SESSION['PercorsoAttuale']."/");
                 while ($f = readdir($folder)) {
@@ -91,11 +106,10 @@ if (isset($_SESSION['session_id'])) {
 
                         #CONTROLLO SOLO I FILE
                         echo "<div style='margin:5px'>";
-                        echo "<a href=\"..\dashboard.php?file=\"\"\" style='text-decoration: inherit;color:black'>";
+                        //echo "<a href=\"..\dashboard.php?file=\"\"\" style='text-decoration: inherit;color:black'>";
                         echo "<img src=\"./img/".IconSelector($ext)."\" style='width:100px;height:100px;'>";             // ='./img/File_Icon.png'
                         echo "<figcaption style='text-align: justify;width:110px;height:70px;word-break: break-all;' >".$f."</figcaption>";
-                        echo "</a>";
-                        echo "</a>";
+                       // echo "</a>";
                         echo "</div>";
                     }
                     if(is_dir($_SESSION['PercorsoAttuale']."/" . $f)){
@@ -129,20 +143,20 @@ if (isset($_SESSION['session_id'])) {
                         <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
                             <label for="UploadFile" style="font-weight: bold;">Insert file to upload</label><br>
                             <input type="file" name="file" style="height:30px; width:350px"></input>
-                            <input type="text" name="directory"  style="visibility:hidden" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                            <input type="text" name="directory"  style="visibility:hidden; height:20px; width:0px" " value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="Submit" style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="rimozioneFile.php" method="post">
                             <label for="RemoveFile" style="font-weight: bold;"  >Remove file</label><br>
                             <input type="text" name="nomeFile" placeholder="name file to remove" style="height:20px; width:150px">
-                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:191px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="inserimentoFolder.php" method="post">
                             <label for="InsertFolder" style="font-weight: bold;">Insert folder</label><br>
-                            <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:150px">
+                            <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:157px">
                             </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
                         </form><br>
@@ -150,21 +164,21 @@ if (isset($_SESSION['session_id'])) {
                         <form action="modificaFolder.php" method="post">
                             <label for="ModifyFolder" style="font-weight: bold;">Modify folder</label><br>
                             <input type="text" name="oldname" placeholder="name folder" style="height:20px; width:150px"></input>
-                            <input type="text" name="newname" placeholder="new name folder" style="height:20px; width:150px"/>
+                            <input type="text" name="newname" placeholder="new name folder" style="height:20px; width:160px"/>
                             <input type="text"  name="directory" style="visibility:hidden;height:20px; width:18px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="rimozioneFolder.php" method="post">
                             <label for="RemoveFolder" style="font-weight: bold;">Remove folder</label><br>
-                            <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:150px">
+                            <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:157px">
                             </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
                         </form><br>
 
                         <form action="downloadFile.php" method="post">
                             <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
-                            <input type="text" name ="downloadFileName" placeholder="name file to download"  style="height:20px; width:150px">
+                            <input type="text" name ="downloadFileName" placeholder="name file to download"  style="height:20px; width:157px">
                             </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
                             <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
                         </form>
