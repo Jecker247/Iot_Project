@@ -49,13 +49,13 @@ $nomefolder = $_POST["rimFolder"];
         }
         // avviso ok
         $esito = "Successo";
-        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
     } else {
         echo "no<br/>";
         //echo "<script>window.alert('Testo del messaggio')</script>";
         // avviso negativo
         $esito= "Errore";
-        header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
     }
 
 ?>

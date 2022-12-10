@@ -13,10 +13,10 @@ echo "test";
             if(mkdir($dir, 777)){
                 mkdir($dir, 777);
                 $esito = "Successo";
-                header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
             }else{
                 $esito= "Errore";
-                header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php?operazione=".$esito);
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito);
             }
 
             // creata cartella nel path $dir
