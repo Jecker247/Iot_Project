@@ -46,7 +46,10 @@ if (isset($_SESSION['session_id'])) {
         $_SESSION['PercorsoAttuale'] = $_SESSION['PercorsoAttuale']."/".$_GET['folder'];
     }else if(isset($_GET['currentdir'])){
         $_SESSION['PercorsoAttuale'] = $_GET['currentdir'];
-    }else{
+    } //testing
+    else if(isset($_GET['directory'])){
+        $_SESSION['PercorsoAttuale'] =$_GET['directory'];
+    }else {
         $_SESSION['PercorsoAttuale'] = __DIR__."/Data/".$session_user;  //."/"
     }
 
@@ -79,13 +82,29 @@ if (isset($_SESSION['session_id'])) {
             <div style="position: relative; left: 10px;">
 
                 <?php
-                // <button id="BackButton" class="mainButtonClass" onclick="funzioneTest()"></button>
                     if($_SESSION['PercorsoAttuale'] == __DIR__."/Data/".$session_user){
                         echo "<button id='BackButton' class='mainButtonClass' disabled></button>";
                         echo "<button id='HomeButton' class='mainButtonClass' onclick='location.href='http://serverwebuni.ns0.it:580/dashboard.php'' disabled></button>";
                     }else{
                         echo "<button id='BackButton' class='mainButtonClass' onclick='location.href=\"../back.php\"'></button>";
                         echo "<button id='HomeButton' class='mainButtonClass' onclick='location.href=\"http://serverwebuni.ns0.it:580/dashboard.php\"'></button>";
+                        // current folder visualization:
+                        if(isset($_GET['currentdir'])) {
+                            $nomeFolderAttuale = $_GET['currentdir'];
+                            $nomeFolder = explode('/', $nomeFolderAttuale);
+                            $nF = end($nomeFolder);
+                        }else if(isset($_POST['directory'])){
+                            $nomeFolderAttuale = $_POST['directory'];
+                            $nomeFolder = explode('/', $nomeFolderAttuale);
+                            $nF = end($nomeFolder);
+                        }else if(isset($_GET['directory'])){
+                            $nomeFolderAttuale = $_GET['directory'];
+                            $nomeFolder = explode('/', $nomeFolderAttuale);
+                            $nF = end($nomeFolder);
+                        }else{
+                            $nF = $_GET['folder'];
+                        }
+                        echo "Cartella Attuale: ".$nF;
                     }
                 ?>
             </div>
@@ -94,7 +113,6 @@ if (isset($_SESSION['session_id'])) {
         <div id="gridContainer">
             <div class="gridDiv" style="display:grid; grid-template-columns: auto auto auto auto auto;overflow-y: scroll;">
                 <?php
-                // quello sopra era qua
 
                 $folder = opendir($_SESSION['PercorsoAttuale']."/");
                 while ($f = readdir($folder)) {
@@ -139,49 +157,103 @@ if (isset($_SESSION['session_id'])) {
                     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 </div>
                 <div class="internalGridright" id="insertModel">
-                    <div id="barraGridRight" style="overflow-y: scroll; height: 280px;overflow-x:hidden;">
-                        <form action="inserimentoFile.php". method="post" enctype="multipart/form-data">
-                            <label for="UploadFile" style="font-weight: bold;">Insert file to upload</label><br>
-                            <input type="file" name="file" style="height:30px; width:350px"></input>
-                            <input type="text" name="directory"  style="visibility:hidden; height:20px; width:0px" " value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="Submit" style="height:20px; width:120px"></input>
-                        </form><br>
 
-                        <form action="rimozioneFile.php" method="post">
-                            <label for="RemoveFile" style="font-weight: bold;"  >Remove file</label><br>
-                            <input type="text" name="nomeFile" placeholder="name file to remove" style="height:20px; width:150px">
-                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:191px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
-                        </form><br>
+                    <div id="barraGridRight">
+                        <div id="testing" style="display:grid; vertical-align: baseline; padding: 10px;">
+                            <form action="dashboard.php">
+                                <p>seleziona l'operazione che vuoi eseguire:</p>
+                                <div>
+                                    <input type="radio" id="UploadFile" name="OperazioneCloud" value="uploadFile" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="UploadFile" >UploadFile</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="RemoveFile" name="OperazioneCloud" value="removeFile" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="RemoveFile">RemoveFile</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="InsertFolder" name="OperazioneCloud" value="insertFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="InsertFolder">InsertFolder</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="ModifyFolder" name="OperazioneCloud" value="modifyFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="ModifyFolder">ModifyFolder</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="RemoveFolder" name="OperazioneCloud" value="removeFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="RemoveFolder">RemoveFolder</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="DownloadFile" name="OperazioneCloud" value="downloadFile" style="width:1.15em; height: 1.15em"></input>
+                                    <label for="DownloadFile">DownloadFile</label>
+                                </div>
+                                <input type="radio" id="Directory" name="directory" value="<?php echo $_SESSION['PercorsoAttuale'];?>" style="visibility: hidden;width:0px; height:0px " checked ></input>
+                                <div style="padding-bottom: 15px;"><input type="submit" style="width:60px; height:20px " value="Submit"></div>
+                            </form>
+                        </div>
 
-                        <form action="inserimentoFolder.php" method="post">
-                            <label for="InsertFolder" style="font-weight: bold;">Insert folder</label><br>
-                            <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:157px">
-                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
-                        </form><br>
+                        <?php
+                        if(isset($_GET['OperazioneCloud'])){
+                            $OperazioneCloud = $_GET['OperazioneCloud'];
+                            if($OperazioneCloud  == "uploadFile"){
+                                ?>
+                                <form action="inserimentoFile.php" method="post" enctype="multipart/form-data">
+                                    <label for="UploadFile" style="font-weight: bold;">Insert file to upload</label><br>
+                                    <input type="file" name="file" style="height:30px; width:350px"></input>
+                                    <input type="text" name="directory"  style="visibility:hidden; height:20px; width:0px" " value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="Submit" style="height:20px; width:120px"></input>
+                                </form>
+                                <?php
+                            }else  if($OperazioneCloud  == "removeFile"){
+                                ?>
+                                <form action="rimozioneFile.php" method="post">
+                                    <label for="RemoveFile" style="font-weight: bold;"  >Remove file</label><br>
+                                    <input type="text" name="nomeFile" placeholder="name file to remove" style="height:20px; width:150px">
+                                    </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:191px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="Remove File"  style="height:20px; width:120px"></input>
+                                </form>
+                                <?php
+                            }else if($OperazioneCloud  == "insertFolder"){
+                                ?>
+                                <form action="inserimentoFolder.php" method="post">
+                                    <label for="InsertFolder" style="font-weight: bold;">Insert folder</label><br>
+                                    <input type="text" name="nomeFolder" placeholder="name folder to insert" style="height:20px; width:157px">
+                                    </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="New Folder"  style="height:20px; width:120px"></input>
+                                </form>
+                                <?php
+                            }else if($OperazioneCloud  == "modifyFolder"){
+                                ?>
+                                <form action="modificaFolder.php" method="post">
+                                    <label for="ModifyFolder" style="font-weight: bold;">Modify folder</label><br>
+                                    <input type="text" name="oldname" placeholder="name folder" style="height:20px; width:150px"></input>
+                                    <input type="text" name="newname" placeholder="new name folder" style="height:20px; width:160px"/>
+                                    <input type="text"  name="directory" style="visibility:hidden;height:20px; width:18px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
+                                </form>
+                                <?php
+                            }else if($OperazioneCloud  == "removeFolder"){
+                                ?>
+                                <form action="rimozioneFolder.php" method="post">
+                                    <label for="RemoveFolder" style="font-weight: bold;">Remove folder</label><br>
+                                    <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:157px">
+                                    </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
+                                </form>
+                                <?php
+                            }else  if($OperazioneCloud  == "downloadFile"){
+                                ?>
+                                <form action="downloadFile.php" method="post">
+                                    <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
+                                    <input type="text" name ="downloadFileName" placeholder="name file to download"  style="height:20px; width:157px">
+                                    </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
+                                    <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
+                                </form>
 
-                        <form action="modificaFolder.php" method="post">
-                            <label for="ModifyFolder" style="font-weight: bold;">Modify folder</label><br>
-                            <input type="text" name="oldname" placeholder="name folder" style="height:20px; width:150px"></input>
-                            <input type="text" name="newname" placeholder="new name folder" style="height:20px; width:160px"/>
-                            <input type="text"  name="directory" style="visibility:hidden;height:20px; width:18px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="Modify Folder"  style="height:20px; width:120px"></input>
-                        </form><br>
+                                <?php
+                            }
 
-                        <form action="rimozioneFolder.php" method="post">
-                            <label for="RemoveFolder" style="font-weight: bold;">Remove folder</label><br>
-                            <input type="text" name="rimFolder" placeholder="name folder to remove"  style="height:20px; width:157px">
-                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="Remove Folder"  style="height:20px; width:120px"></input>
-                        </form><br>
-
-                        <form action="downloadFile.php" method="post">
-                            <label for="DownloadFile" style="font-weight: bold;">Download file</label><br>
-                            <input type="text" name ="downloadFileName" placeholder="name file to download"  style="height:20px; width:157px">
-                            </input><input type="text" name="directory" style="visibility:hidden;height:20px; width:184px" value="<?php echo $_SESSION['PercorsoAttuale'];?>"/>
-                            <input type="submit" value="Download File"  style="height:20px; width:120px"></input>
-                        </form>
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
