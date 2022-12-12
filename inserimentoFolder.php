@@ -9,11 +9,11 @@ $user = $_SESSION['session_user'];
             $dir = $Dir."/".$folderName;
             if(mkdir($dir, 0770)){
                 mkdir($dir, 0770);
-                $esito = "Successo";
-                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+                $messaggio = "L'operazione di inserimento della cartella ".$folderName." è andata a buon fine";
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
             }else{
-                $esito= "Errore";
-                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+                $messaggio = "L'operazione di inserimento della cartella ".$folderName." è fallita";
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
             }
 
             // creata cartella nel path $dir
@@ -33,6 +33,4 @@ $user = $_SESSION['session_user'];
             $check->execute();*/
 
         }
-        //teoricamente la cartella è stata inserita
-//header("Location: http://serverwebuni.ns0.it:580/html/dashboard.php? ");
 ?>

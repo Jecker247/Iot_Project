@@ -30,12 +30,15 @@ session_start();
             if($esito == "Successo") {
                 $fileName = basename($file['name']);
                 move_uploaded_file($file['tmp_name'], $uploadDir . DIRECTORY_SEPARATOR . $fileName);
+                $messaggio = "L'operazione di insertimento del file ".$file['name']." è andata a buon fine";
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$uploadDir);
+            }else{
+                $messaggio = "L'operazione di insertimento del file ".$file['name']." è fallita";
+                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$uploadDir);
             }
-            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$uploadDir);
-
         }else{  // se errore ritorna subito nella pagina precedente
-            $esito= "Errore";
-            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$uploadDir);
+           $messaggio = "L'operazione di insertimento del file ".$file['name']." è fallita";
+           header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$uploadDir);
         }
 
 ?>

@@ -38,16 +38,16 @@ $nomefolder = $_POST["rimFolder"];
         if ($cancellare) {
             //cancella cartella
             rmdir($Directory . $nomefolder);
-            $esito = "Successo";
-            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+            $messaggio = "L'operazione di rimozione del folder ".$nomefolder." è andata a buon fine";
+            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
         } else {
-            $esito = "Errore";
-            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=" . $esito . "&currentdir=" . $Dir);
+            $messaggio = "L'operazione di rimozione del folder ".$nomefolder." è fallita";
+            header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
         }
 
     }else{
-        $esito = "Errore";
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+        $messaggio = "L'operazione di rimozione del folder ".$nomefolder." è fallita";
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
     }
 
 ?>

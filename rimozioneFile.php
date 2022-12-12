@@ -29,12 +29,12 @@ if(isset($_POST["nomeFile"])) {
 
     if ($trovato) {
         // avviso ok
-        $esito = "Successo";
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+        $messaggio = "L'operazione di rimozione del file ".$_POST["nomeFile"]." è andata a buon fine";
+
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
     } else {
-        // avviso negativo
-        $esito= "Errore";
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=".$esito."&currentdir=".$Dir);
+        $messaggio = "L'operazione di rimozione del file ".$_POST["nomeFile"]." è fallita";
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
     }
 }
 

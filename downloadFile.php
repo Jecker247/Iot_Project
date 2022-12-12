@@ -37,7 +37,8 @@ if(isset($_POST["downloadFileName"])) {
 
     $folder = closedir($folder);
     if($esito =="Errore") {
-        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?operazione=" . $esito."&currentdir=".$Dir);
+        $messaggio = "L'operazione di rimozione del folder ".$nomefile." è fallita";
+        header("Location: http://serverwebuni.ns0.it:580/dashboard.php?esitoOperazione=".$messaggio."&currentdir=".$Dir);
     }
 }
 
