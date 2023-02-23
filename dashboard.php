@@ -169,7 +169,7 @@ if(isset($_SESSION['session_id'])){
 
                         <div id="barraGridRight">
                             <!--  Zona lavoro: bottom-right grid | Form Operations-->
-                            <form action="dashboard.php">
+                            <form action="dashboard.php" method="GET">
                                 <h3 style="font-family: Trebuchet MS, Arial, Tahoma, Serif;">Select the operation to perform:</h3>
                                 <div id="RadioGriglia" style="display:grid; grid-template-columns: auto auto; padding: 10px;">
                                     <div>
@@ -199,12 +199,18 @@ if(isset($_SESSION['session_id'])){
                                     <input type="radio" id="Directory" name="directory" value="<?php echo $_SESSION['PercorsoAttuale'];?>" style="visibility: hidden;width:0px; height:0px " checked ></input>
 
                                 </div>
+                                <!--  bottoni form -->
                                 <div style="padding-bottom: 30px;">
-                                        <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Submit Operation"/>
-                                        <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Undo Operation"/>
+                                        <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Submit Operation" name="submit"/>
+                                        <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Undo Operation" name="undo"/>
                                 </div>
                             </form>
                             <?php
+                            # Gestione bottoni form, case Undo & Submit
+                            if(isset($_GET['undo'])){
+                                # Case Undo: refresha solo la pagina togliendo il form di compilazione della operazione selezionata precedentemente
+                                header("Location: http://serverwebuni.ns0.it:580/dashboard.php?currentdir=".$_SESSION['PercorsoAttuale']);
+                            }else if(isset($_GET['submit'])){
                             # gestione form dopo esecuzione button submit operation | Showing the corret operation that we want to do
                             if(isset($_GET['OperazioneCloud'])){
                                 $OperazioneCloud = $_GET['OperazioneCloud'];
@@ -266,6 +272,7 @@ if(isset($_SESSION['session_id'])){
                                     <?php
                                 }
 
+                            }
                             }
                             ?>
                         </div>
