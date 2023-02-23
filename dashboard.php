@@ -271,7 +271,11 @@ if(isset($_SESSION['session_id'])){
 
                                     <?php
                                 }
-
+                            }else{
+                                # schiaccio due volte Submit senza aver selezionato l'operazione
+                                # Avviso errore
+                                $mex='Non hai selezionato nessuna operazione';
+                                echo '<script type="text/javascript">alert("'.$mex.'");</script>';
                             }
                             }
                             ?>
