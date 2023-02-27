@@ -155,7 +155,7 @@ button{
 }
 #logoutButton{
 	position: relative;
-	left: 1200px;
+	left: 1155px;
 	top: -17.5px;
 }
 
@@ -165,7 +165,6 @@ button{
 }
 
 #barraGridRight{
-	overflow-y: scroll;
 	overflow-x:hidden;
 	height: 280px;
 }
@@ -251,14 +250,14 @@ button{
 }
 
 #HelperButton{
-	background-color: LightGray;
+	background-color: AliceBlue;
 	background-image: url("../img/QuestionMark.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 38px 38px;
 	position:relative;
 	margin-right:10px;
-	left:1200px;
+	left:1150px;
 	top:-5px;
 }
 
@@ -269,4 +268,43 @@ button{
 	position:relative;
 	top:-10px;
 	height:611px;
+}
+
+#TitoloForm{
+	font-family: Trebuchet MS, Arial, Tahoma, Serif;
+}
+
+#RadioGriglia{
+	display:grid;
+	grid-template-columns: auto auto;
+	padding: 10px;
+}
+.radioClass{
+	width:1.15em;
+	height: 1.15em;
+}
+
+.buttonsFormClass{
+	width:120px;
+	height:20px;
+	border-radius: 16px;
+	border: none;
+}
+
+.invisibleField {
+	visibility: hidden;
+	width: 0px;
+	height: 0px;
+}
+
+#FileQuestionButton{
+	background-color: AliceBlue;
+	background-image: url("../img/File_QuestionMark.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 38px 38px;
+	position:relative;
+	margin-right:10px;
+	left:1150px;
+	top:-5px;
 }
