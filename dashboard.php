@@ -84,6 +84,7 @@ if (isset($_SESSION['session_id'])) {
                 <img src="./img/icon.png" width="100px" height="100px">
                 <h2>Welcome, <?php echo $session_user; ?> </h2>
             </div>
+            <button id="FileQuestionButton" class='mainButtonClass' title="I nomi troppo lunghi dei file vengono accorciati per motivi tecnici!"></button>
             <button id="HelperButton" class='mainButtonClass' title="Se trovi bug o hai bisogno di aiuto contatta: CloudHelper@gmail.com"></button>
             <button id="logoutButton" onclick="window.location.href='./php/logout.php';">logout</button>
             <hr>
@@ -171,39 +172,39 @@ if (isset($_SESSION['session_id'])) {
                     <div id="barraGridRight">
                         <!--  Zona lavoro: bottom-right grid | Form Operations-->
                         <form action="dashboard.php" method="GET">
-                            <h3 style="font-family: Trebuchet MS, Arial, Tahoma, Serif;">Select the operation to perform:</h3>
-                            <div id="RadioGriglia" style="display:grid; grid-template-columns: auto auto; padding: 10px;">
+                            <h3 id="TitoloForm">Select the operation to perform:</h3>
+                            <div id="RadioGriglia">
                                 <div>
-                                    <input type="radio" id="UploadFile" name="OperazioneCloud" value="uploadFile" style="width:1.15em; height: 1.15em;"></input>
+                                    <input type="radio" id="UploadFile" name="OperazioneCloud" value="uploadFile" class='radioClass'></input>
                                     <label for="UploadFile" >UploadFile</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="RemoveFile" name="OperazioneCloud" value="removeFile" style="width:1.15em; height: 1.15em"></input>
+                                    <input type="radio" id="RemoveFile" name="OperazioneCloud" value="removeFile" class='radioClass'></input>
                                     <label for="RemoveFile">RemoveFile</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="InsertFolder" name="OperazioneCloud" value="insertFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <input type="radio" id="InsertFolder" name="OperazioneCloud" value="insertFolder" class='radioClass'></input>
                                     <label for="InsertFolder">InsertFolder</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="ModifyFolder" name="OperazioneCloud" value="modifyFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <input type="radio" id="ModifyFolder" name="OperazioneCloud" value="modifyFolder" class='radioClass'></input>
                                     <label for="ModifyFolder">ModifyFolder</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="RemoveFolder" name="OperazioneCloud" value="removeFolder" style="width:1.15em; height: 1.15em"></input>
+                                    <input type="radio" id="RemoveFolder" name="OperazioneCloud" value="removeFolder" class='radioClass'></input>
                                     <label for="RemoveFolder">RemoveFolder</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="DownloadFile" name="OperazioneCloud" value="downloadFile" style="width:1.15em; height: 1.15em"></input>
+                                    <input type="radio" id="DownloadFile" name="OperazioneCloud" value="downloadFile" class='radioClass'></input>
                                     <label for="DownloadFile">DownloadFile</label>
                                 </div>
-                                <input type="radio" id="Directory" name="directory" value="<?php echo $_SESSION['PercorsoAttuale'];?>" style="visibility: hidden;width:0px; height:0px " checked ></input>
+                                <input type="radio" id="Directory" name="directory" value="<?php echo $_SESSION['PercorsoAttuale'];?>" class="invisibleField" checked ></input>
 
                             </div>
                             <!--  bottoni form -->
                             <div style="padding-bottom: 30px;">
-                                <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Submit Operation" name="submit"/>
-                                <input type="submit" style="width:120px; height:20px; border-radius: 16px;border: none;" value="Undo Operation" name="undo"/>
+                                <input type="submit" class="buttonsFormClass" value="Submit Operation" name="submit"/>
+                                <input type="submit"  class="buttonsFormClass" value="Undo Operation" name="undo"/>
                             </div>
                         </form>
                         <?php
