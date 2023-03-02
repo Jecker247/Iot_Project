@@ -42,9 +42,11 @@
         }else{
             # IF FALSE THEN
             echo "File non e' stato caricato, inizio fase di eliminazione file nel FS";
-            # eliminare dal file system (? richiamare deleteFile.php, specificando $filename)
-            # @TODO implementate eliminazione nel FS
-            # argomenti da passare: path e nome file $path, $fileName
+            # eliminare dal file system
+            # se arrivati a questo punto: DB: FALLITO, FS: OK
+            # Procedo eliminando nel FS:
+            //@unlink($path."/" . $fileName);
+            echo "Eliminato nel FS";
         }
 
 ?>
