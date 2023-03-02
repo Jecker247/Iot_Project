@@ -85,6 +85,8 @@ error_reporting(E_ALL);
                         break;    
                     case 'RMDIR':   #rimuovo una cartella solo se è vuota 
                         # code...
+                        $nameFolder=$_POST['nameFolder'];
+                        //header("Location: ./deleteFolder.php?path=".$path."&nameFolder=".$nameFolder);  # da abilitare in fase di testing
                         break; 
                     case 'RF':     #rimuove un file
                         # code...
