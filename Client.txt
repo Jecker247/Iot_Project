@@ -1,0 +1,40 @@
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+public class Client {
+
+        public static void main(String[] args) throws Exception {
+            //avvio una connesione via http
+            URL url = new URL("http","serverwebuni.ns0.it",580,"/php/TokenGeneratorDK.php");
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            //con.connect();
+            //Prendo in input le variabili
+            String username,password;
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Fornisci Username:");
+            username = scanner.nextLine();
+            System.out.println("Fornisci Password:");
+            password = scanner.nextLine();
+            con.setDoOutput(true);
+            String message = "username="+username+"&password="+password;
+            OutputStream os = con.getOutputStream();
+            os.write(message.getBytes());
+            os.flush();
+            os.close();
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Response code: " + responseCode);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            System.out.println("Response Body: " + response.toString());
+           // con.disconnect();
+        }
+}
