@@ -38,61 +38,76 @@ public class Client {
             in.close();
             //String BuffRicevuto = response.toString();
             //System.out.println("Response Body: " + BuffRicevuto .toString());
+            if(responseCode==200){
+                // connessione IDONEA
+                //splitting
+                String inf = response.toString();
+                String[] parts = inf.split("/");
+                int iduser = (Integer) null; //Valore nullo perche' non e' stato ancora modificato
+                String Status = parts[0];
+                if (parts.length > 1) {
+                    String Stringid = parts[1];
+                    iduser = Integer.parseInt(Stringid);
+                }
+                System.out.println("Informazioni da parte del server:");
+                System.out.println(parts);
 
-            //splitting
-            String inf = response.toString();
-            String[] parts = inf.split("/");
-            int iduser=(Integer)null; //Valore nullo perche' non e' stato ancora modificato
-            String Status = parts[0];
-            if(parts.length>1){
-                String Stringid = parts[1];
-                iduser = Integer.parseInt(Stringid);
-            }
-            System.out.println("Informazioni da parte del server:");
-            System.out.println(parts);
+                System.out.println("Ciclo Operazione inizio:");
+                System.out.println();
 
-            System.out.println("Ciclo Operazione inizio:");
-            System.out.println();
+                if (Status.equals("connessione riuscita!")) { //ovviamente cambiare questo caso di check
+                    // TESTING senza interfaccia grafica ! andando solo di logica senza aver testato dopo *
+                    String operazione = "";
+                    while (!(operazione.equals("exit"))) {
+                        System.out.println("Seleziona l'operazione disponibile:");
+                        System.out.println("Elenco: <CD>-Cambio Dir");
+                        System.out.println("        <UF>-Upload File");
+                        System.out.println("        <DF>-Download File");
+                        System.out.println("        <MKDIR>-Crea Folder");
+                        System.out.println("        <RMDIR>-Rimuovi Folder");
+                        System.out.println("        <RF>-Rimuovi File");
+                        System.out.println("        <MFDIR>-Modifica Folder");
+                        System.out.println("        <exit>- Chiudi Sessione");
+                        operazione = scanner.nextLine();
+                        System.out.println("Operazione selezionata: " + operazione);
+                        if(!(operazione.equals("exit"))) {
+                            System.out.println("Esecuzione....");
+                            //TESTING
+                            // IDEA: passo a Hub.php ID per check che sono io client a lavorare e il path? (in questo caso devo gestire tutti i casi sopra elencati)
+                            // connessione alla pagina Hub:
+                            // ********
+                            URL urlExe = new URL("http", "serverwebuni.ns0.it", 580, "/php/Hub.php");
+                            HttpURLConnection conExe = (HttpURLConnection) url.openConnection();
+                            con.setRequestMethod("POST");
+                            //operazione
+                            System.out.println("Puoi specificare il Path, siamo in fase di sviluppo e non sono automatico. Grazie :)");
+                            String path = scanner.nextLine();
+                            con.setDoOutput(true);
+                            
+                            //aggiungere switch per gestire tutte le operazioni
 
-            if(Status.equals("connessione riuscita!")){ //ovviamente cambiare questo caso di check
-                // TESTING senza interfaccia grafica
-                String operazione="";
-                while(!(operazione.equals("exit"))){
-                    System.out.println("Seleziona l'operazione disponibile:");
-                    System.out.println("Elenco: <CD>-Cambio Dir");
-                    System.out.println("        <UF>-Upload File");
-                    System.out.println("        <DF>-Download File");
-                    System.out.println("        <MKDIR>-Crea Folder");
-                    System.out.println("        <RMDIR>-Rimuovi Folder");
-                    System.out.println("        <RF>-Rimuovi File");
-                    System.out.println("        <MFDIR>-Modifica Folder");
-                    System.out.println("        <exit>- Chiudi Sessione");
-                    operazione = scanner.nextLine();
-                    System.out.println("Operazione selezionata: "+operazione);
-                    if(!(operazione.equals("exit"))){
-                        System.out.println("Esecuzione....");
-                        //TESTING
-                        // IDEA: passo a Hub.php ID per check che sono io client a lavorare e il path? (in questo caso devo gestire tutti i casi sopra elencati)
-                        // connessione alla pagina Hub:
-                        URL urlExe = new URL("http","serverwebuni.ns0.it",580,"/php/Hub.php");
-                        HttpURLConnection conExe = (HttpURLConnection) url.openConnection();
-                        con.setRequestMethod("POST");
-                        //operazione
-                        System.out.println("Puoi specificare il Path, siamo in fase di sviluppo e non sono automatico. Grazie :)");
-                        String path=scanner.nextLine();
-                        con.setDoOutput(true);
-                        String messageExe = "path="+path+"&operazione="+operazione+"&id="iduser;
-                        OutputStream osExe = con.getOutputStream();
-                        osExe.write(message.getBytes());
-                        osExe.flush();
-                        osExe.close();
-                    }else{
-                        System.out.println("Exiting....");
+                            String messageExe = "path="+path+"&operazione="+operazione+"&id="iduser;
+                            OutputStream osExe = con.getOutputStream();
+                            osExe.write(message.getBytes());
+                            osExe.flush();
+                            osExe.close();
+                            int responseCodeExe = con.getResponseCode();
+                            System.out.println("Response code: " + responseCodeExe);
+                            BufferedReader inExe = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                            String inputLineExe;
+                            StringBuffer responseExe = new StringBuffer();
+                            while ((inputLineExe = in.readLine()) != null) {
+                                responseExe.append(inputLineExe);  // mex risposta dal server dell'operazione eseguita
+                            }
+                            in.close();
+                            System.out.println(responseExe.toString()); // risposta dal server
+                        } else {
+                            System.out.println("Exiting....");
+                        }
                     }
                 }
+                // con.disconnect();
             }
-           // con.disconnect();
-
 
         }
 }
