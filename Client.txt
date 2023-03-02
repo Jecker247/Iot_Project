@@ -34,7 +34,40 @@ public class Client {
                 response.append(inputLine);
             }
             in.close();
-            System.out.println("Response Body: " + response.toString());
+            //String BuffRicevuto = response.toString();
+            //System.out.println("Response Body: " + BuffRicevuto .toString());
+
+            //splitting
+            String inf = response.toString();
+            String Status = inf.split("/")[0];
+            String Stringid = inf.split("/")[1];
+            int iduser = Integer.parseInt(Stringid);
+            System.out.println("Informazioni da parte del server:");
+            System.out.println(Status);
+            System.out.println(iduser);
+            System.out.println("Ciclo Operazione inizio:");
+            System.out.println();
+            if(Status.equals("connessione riuscita!")){
+                // TESTING senza interfaccia grafica
+                String operazione="";
+                while(!(operazione.equals("exit"))){
+                    System.out.println("Seleziona l'operazione disponibile:");
+                    System.out.println("Elenco: <CD>-Cambio Dir");
+                    System.out.println("        <UF>-Upload File");
+                    System.out.println("        <DF>-Download File");
+                    System.out.println("        <MKDIR>-Crea Folder");
+                    System.out.println("        <RMDIR>-Rimuovi Folder");
+                    System.out.println("        <RF>-Rimuovi File");
+                    System.out.println("        <MFDIR>-Modifica Folder");
+                    System.out.println("        <exit>- Chiudi Sessione");
+                    operazione = scanner.nextLine();
+                    System.out.println("Operazione selezionata: "+operazione);
+                    System.out.println("Esecuzione....");
+                }
+            }
            // con.disconnect();
+
+
         }
 }
+
