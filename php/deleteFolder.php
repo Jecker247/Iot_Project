@@ -8,10 +8,10 @@
 </head>
 <body>
 <?php
-    if(isset($_POST["nameFolder"])){
-        $folderName=$_POST["nameFolder"];
+    if(isset($_POST["nameFolder"])) {
+        $folderName = $_POST["nameFolder"];
         $Dir = $_POST["path"];
-        $Directory = $Dir. "/";
+        $Directory = $Dir . "/";
         $trovato = false;
 
         //apertura percorso
@@ -37,18 +37,20 @@
                 }
             }
             $checkFolder = closedir($checkFolder);
-        if ($cancellare) {
-            //cancella cartella
-            rmdir($Directory . $folderName);
-            echo "Cartella cancellata";
+            if ($cancellare) {
+                //cancella cartella
+                rmdir($Directory . $folderName);
+                echo "Cartella cancellata";
+            } else {
+                echo "Cartella non cancellata perche' contiene altri file/folder";
+            }
+
         } else {
-            echo "Cartella non cancellata perche' contiene altri file/folder";
-        }
-
-    }else{
             echo "Cartella non cancellata perche' non esiste";
+        }
+    }else{
+        echo "Cartella non impostata";
     }
-
 ?>
 </body>
 </html>
