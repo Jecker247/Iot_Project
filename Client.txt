@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.lang.Integer;
+
 public class Client {
 
         public static void main(String[] args) throws Exception {
@@ -39,15 +41,20 @@ public class Client {
 
             //splitting
             String inf = response.toString();
-            String Status = inf.split("/")[0];
-            String Stringid = inf.split("/")[1];
-            int iduser = Integer.parseInt(Stringid);
+            String[] parts = inf.split("/");
+            int iduser=(Integer)null; //Valore nullo perche' non e' stato ancora modificato
+            String Status = parts[0];
+            if(parts.length>1){
+                String Stringid = parts[1];
+                iduser = Integer.parseInt(Stringid);
+            }
             System.out.println("Informazioni da parte del server:");
-            System.out.println(Status);
-            System.out.println(iduser);
+            System.out.println(parts);
+
             System.out.println("Ciclo Operazione inizio:");
             System.out.println();
-            if(Status.equals("connessione riuscita!")){
+
+            if(Status.equals("connessione riuscita!")){ //ovviamente cambiare questo caso di check
                 // TESTING senza interfaccia grafica
                 String operazione="";
                 while(!(operazione.equals("exit"))){
@@ -62,7 +69,26 @@ public class Client {
                     System.out.println("        <exit>- Chiudi Sessione");
                     operazione = scanner.nextLine();
                     System.out.println("Operazione selezionata: "+operazione);
-                    System.out.println("Esecuzione....");
+                    if(!(operazione.equals("exit"))){
+                        System.out.println("Esecuzione....");
+                        //TESTING
+                        // IDEA: passo a Hub.php ID per check che sono io client a lavorare e il path? (in questo caso devo gestire tutti i casi sopra elencati)
+                        // connessione alla pagina Hub:
+                        URL urlExe = new URL("http","serverwebuni.ns0.it",580,"/php/Hub.php");
+                        HttpURLConnection conExe = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("POST");
+                        //operazione
+                        System.out.println("Puoi specificare il Path, siamo in fase di sviluppo e non sono automatico. Grazie :)");
+                        String path=scanner.nextLine();
+                        con.setDoOutput(true);
+                        String messageExe = "path="+path+"&operazione="+operazione+"&id="iduser;
+                        OutputStream osExe = con.getOutputStream();
+                        osExe.write(message.getBytes());
+                        osExe.flush();
+                        osExe.close();
+                    }else{
+                        System.out.println("Exiting....");
+                    }
                 }
             }
            // con.disconnect();
