@@ -6,6 +6,7 @@ import java.lang.Integer;
 public class Client {
 
         public static void main(String[] args) throws Exception {
+            System.out.println("Benvenuto nella demo!");
             //avvio una connesione via http
             URL url = new URL("http","serverwebuni.ns0.it",580,"/php/TokenGeneratorDK.php");
 
@@ -26,8 +27,8 @@ public class Client {
             os.flush();
             os.close();
 
-            int responseCode = con.getResponseCode();
-            System.out.println("Response code: " + responseCode);
+            //int responseCode = con.getResponseCode();
+            //System.out.println("Response code: " + responseCode);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -36,79 +37,233 @@ public class Client {
                 response.append(inputLine);
             }
             in.close();
-            //String BuffRicevuto = response.toString();
-            //System.out.println("Response Body: " + BuffRicevuto .toString());
-            if(responseCode==200){
-                // connessione IDONEA
-                //splitting
-                String inf = response.toString();
-                String[] parts = inf.split("/");
-                int iduser = (Integer) null; //Valore nullo perche' non e' stato ancora modificato
-                String Status = parts[0];
-                if (parts.length > 1) {
-                    String Stringid = parts[1];
-                    iduser = Integer.parseInt(Stringid);
+            String BuffRicevuto = response.toString();
+            System.out.println("Response Body: " + BuffRicevuto .toString());
+
+            //splitting
+            // con.disconnect();
+            String inf = response.toString();
+            String[] parts = inf.split("/");
+            int iduser = -1; //Valore negativo perche' non e' stato ancora modificato
+            String Status = parts[0]; // noi ritorniamo 202  = 'Accepted';
+
+            if(Status.equals("202")){ //connessione accettata quindi posso lavorarci (aggiungere su TokenizerGeneratorDK.php
+                String Stringid = parts[1];
+                iduser = Integer.parseInt(Stringid);    //assegnazione valore ID ottenuto dal server
+                // reminder delle informazioni disponibili dal client
+                System.out.println("Informazioni:");
+                System.out.println("ID USER: "+iduser);
+                System.out.println("USERNAME: "+username);
+
+
+                //gestione path e visualizzazione file folder disponibili nella working directory
+                // pagina visualizzazione.php da creare
+                URL urlVis = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+                HttpURLConnection conVis = (HttpURLConnection) urlVis.openConnection();
+                conVis.setRequestMethod("POST");
+                conVis.setDoOutput(true);
+                /* specifico username e id per:
+                 * confrontare identita' user e per ottenere path base:
+                 * /var/www/html/Data/username
+                 */
+                String messageVis ="username="+username+"&id="+iduser;
+                OutputStream osVis = conVis.getOutputStream();
+                osVis.write(messageVis.getBytes());
+                osVis.flush();
+                osVis.close();
+                int responseCodeVis = conVis.getResponseCode();
+                System.out.println("Response code: " + responseCodeVis);
+                BufferedReader inVis = new BufferedReader(new InputStreamReader(conVis.getInputStream()));
+                String inputLineVis;
+                StringBuffer responseVis = new StringBuffer();
+                while ((inputLineVis = inVis.readLine()) != null) {
+                    responseVis.append(inputLineVis);  // mex risposta dal server dell'operazione eseguita
+                    responseVis.append("/");
                 }
-                System.out.println("Informazioni da parte del server:");
-                System.out.println(parts);
+                inVis.close();
+                // arrivati a questo punto ho un formato: file.txt/file2.png/Folder1
+                // Scompattazione per visualizzazione via testuale
+                String feedback = responseVis.toString();
+                String[] visFileFolder = feedback.split("/");
+
+                System.out.println("Contenuto della working directory HOME:");
+                for(int i=0;i<visFileFolder.length;i++){
+                    // visualizzazione contenuto
+                    System.out.print(visFileFolder[i]+" ");
+                }
+                System.out.println();// a capo per formattazione
+                /* arrivato a questo punto, teoricamente abbiamo effettuato la connessione con TokenGeneratorDK.php e se credenziali corrette:
+                 * - visualizzato la Home directory contenuto
+                 *  DA IMPLEMENTARE PER VIS:
+                 *  visualizzazione.php
+                 * - ORA:
+                 * - ciclo operazione automatizzato
+                 */
+
+                // ???????
+                String path=null;
 
                 System.out.println("Ciclo Operazione inizio:");
                 System.out.println();
+                String operazione = "";
+                while (!(operazione.equals("exit"))) {
+                    // Showing menu operation
+                    System.out.println("Seleziona l'operazione disponibile:");
+                    System.out.println("Elenco: <HM>-Return Home Dir");
+                    System.out.println("        <BK>-Return Back Dir");
+                    System.out.println("        <FW>-Go Forward Dir");
+                    System.out.println("        <UF>-Upload File");
+                    System.out.println("        <DF>-Download File");
+                    System.out.println("        <MKDIR>-Crea Folder");
+                    System.out.println("        <RMDIR>-Rimuovi Folder");
+                    System.out.println("        <RF>-Rimuovi File");
+                    System.out.println("        <MFDIR>-Modifica Folder");
+                    System.out.println("        <CurD>-Show Current Dir");
+                    System.out.println("        <Vis>-Visualizza contenuto Current Dir");
+                    System.out.println("        <exit>- Chiudi Sessione");
+                    // lettura operazione
+                    operazione = scanner.nextLine();
+                    System.out.println("Operazione selezionata: " + operazione);
+                    if(!(operazione.equals("exit"))) {
+                        System.out.println("Esecuzione....");
+                        // Handling della operazione process
+                        //per passare i parametri necessari al fine di completare la operazione
+                        String messageExe = null;
+                        Boolean operazioneValida=true;
+                        // switch gestione iniziale delle operazioni per inoltrare ad Hub.php i corretti parametri
+                        // devo gestire le op: HM,BK,FW,UF,DF,MKDIR,RMDIR,RF,MFDIR
+                        switch(operazione){
+                            case "HM": //case Home
+                                messageExe ="username="+username+"&id="+iduser;break;
+                            case "BK": //case Back
+                                messageExe="path="+path+"&username="+username+"&id="+iduser;break;
+                            case "FW": //case Forward
+                                //richiesta cartella per andare avanti
+                                System.out.println("Fornisci il nome della cartella a cui vuoi accedere: ");
+                                String nameFolder = scanner.nextLine();
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&cartella="+nameFolder;break;
+                            case "UF": //case Upload
+                                //messageExe=
+                                System.out.println("Operazione al momento non disponibile!");
+                                operazioneValida=false;break;
+                            case "DF": // case Download
+                                System.out.println("Operazione al momento non disponibile! ");
+                                operazioneValida=false;break;
+                            case "MKDIR":  // case Creazione Folder
+                                System.out.println("Operazione al momento non disponibile!  ");
+                                operazioneValida=false;break;
+                            case "RMDIR": //case Remove Folder
+                                System.out.println("Operazione al momento non disponibile!   ");
+                                operazioneValida=false;break;
+                            case "RF":   //case Remove File
+                                System.out.println("Operazione al momento non disponibile!    ");
+                                operazioneValida=false;break;
+                            case "MFDIR": //case Modify Folder
+                                System.out.println("Operazione al momento non disponibile!     ");
+                                operazioneValida=false;break;
+                            case "CurD": //case Current Dir show
+                                System.out.println("Current Dir: "+path);operazioneValida=false;break;
+                            case "Vis": //case visualizzazione
+                                // stampo come prima:
+                                URL urlVisCiclo = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+                                HttpURLConnection conVisCiclo = (HttpURLConnection) urlVisCiclo.openConnection();
+                                conVisCiclo.setRequestMethod("POST");
+                                conVisCiclo.setDoOutput(true);
+                                //GESTIONE PATH?
+                                String messageVisCiclo ="username="+username+"&id="+iduser+"&path="+path; //if path set uso path, in visualizzazione, if not sono nella home caso principale sopra
+                                OutputStream osVisCiclo = conVisCiclo.getOutputStream();
+                                osVisCiclo.write(messageVisCiclo.getBytes());
+                                osVisCiclo.flush();
+                                osVisCiclo.close();
+                                BufferedReader inVisCiclo = new BufferedReader(new InputStreamReader(conVisCiclo.getInputStream()));
+                                String inputLineVisCiclo;
+                                StringBuffer responseVisCiclo = new StringBuffer();
+                                while ((inputLineVisCiclo = inVisCiclo.readLine()) != null) {
+                                    responseVisCiclo.append(inputLineVisCiclo);  // mex risposta dal server dell'operazione eseguita
+                                    responseVisCiclo.append("/");
+                                }
+                                inVis.close();
+                                feedback = responseVis.toString();
+                                visFileFolder=null;
+                                visFileFolder = feedback.split("/");
 
-                if (Status.equals("connessione riuscita!")) { //ovviamente cambiare questo caso di check
-                    // TESTING senza interfaccia grafica ! andando solo di logica senza aver testato dopo *
-                    String operazione = "";
-                    while (!(operazione.equals("exit"))) {
-                        System.out.println("Seleziona l'operazione disponibile:");
-                        System.out.println("Elenco: <CD>-Cambio Dir");
-                        System.out.println("        <UF>-Upload File");
-                        System.out.println("        <DF>-Download File");
-                        System.out.println("        <MKDIR>-Crea Folder");
-                        System.out.println("        <RMDIR>-Rimuovi Folder");
-                        System.out.println("        <RF>-Rimuovi File");
-                        System.out.println("        <MFDIR>-Modifica Folder");
-                        System.out.println("        <exit>- Chiudi Sessione");
-                        operazione = scanner.nextLine();
-                        System.out.println("Operazione selezionata: " + operazione);
-                        if(!(operazione.equals("exit"))) {
-                            System.out.println("Esecuzione....");
-                            //TESTING
-                            // IDEA: passo a Hub.php ID per check che sono io client a lavorare e il path? (in questo caso devo gestire tutti i casi sopra elencati)
-                            // connessione alla pagina Hub:
-                            // ********
+                                System.out.println("Contenuto della working directory attuale: ");
+                                for(int i=0;i<visFileFolder.length;i++){
+                                    // visualizzazione contenuto
+                                    System.out.print(visFileFolder[i]+" ");
+                                }
+                                System.out.println();// a capo per formattazione
+                                // linea teorica mi sono perso. quindi gl
+                                operazioneValida=false;break;
+
+                            default: System.out.println("La operazione che hai selezionata non e' possibile eseguila, magari hai sbagliato di scrivere!");operazioneValida=false;break;
+                        }// chiuso switch
+                        if(operazioneValida){
+                            // invio operazione:
+                            //1 versione gestione, senza controllo ID in Hub.php
+                            // connessione alla pagine Hub.php
                             URL urlExe = new URL("http", "serverwebuni.ns0.it", 580, "/php/Hub.php");
-                            HttpURLConnection conExe = (HttpURLConnection) url.openConnection();
-                            con.setRequestMethod("POST");
-                            //operazione
-                            System.out.println("Puoi specificare il Path, siamo in fase di sviluppo e non sono automatico. Grazie :)");
-                            String path = scanner.nextLine();
-                            con.setDoOutput(true);
-                            
-                            //aggiungere switch per gestire tutte le operazioni
-
-                            String messageExe = "path="+path+"&operazione="+operazione+"&id="iduser;
-                            OutputStream osExe = con.getOutputStream();
-                            osExe.write(message.getBytes());
+                            HttpURLConnection conExe = (HttpURLConnection) urlExe.openConnection();
+                            conExe.setRequestMethod("POST");
+                            conExe.setDoOutput(true);
+                            OutputStream osExe = conExe.getOutputStream();
+                            // parametri inviati gestiti con lo switch sopra
+                            osExe.write(messageExe.getBytes());
                             osExe.flush();
                             osExe.close();
-                            int responseCodeExe = con.getResponseCode();
-                            System.out.println("Response code: " + responseCodeExe);
-                            BufferedReader inExe = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                            BufferedReader inExe = new BufferedReader(new InputStreamReader(conExe.getInputStream()));
                             String inputLineExe;
                             StringBuffer responseExe = new StringBuffer();
-                            while ((inputLineExe = in.readLine()) != null) {
+                            while ((inputLineExe = inExe.readLine()) != null) {
                                 responseExe.append(inputLineExe);  // mex risposta dal server dell'operazione eseguita
+                                // magari nel server metto che aggiunge / per parametri aggiuntivi
                             }
-                            in.close();
-                            System.out.println(responseExe.toString()); // risposta dal server
-                        } else {
-                            System.out.println("Exiting....");
-                        }
-                    }
-                }
-                // con.disconnect();
-            }
+                            inExe.close();
+                            //Handling operation on directory
+                            String handlingResponse = responseExe.toString();
+                            String responseResultExe;
+                            if(operazione.equals("HM")||operazione.equals("BK")||operazione.equals("FW")){
+                                // lavoriamo con dir
+                                String[] handlingPath = handlingResponse.split("/");
+                                responseResultExe = handlingPath[0];
+                                // assegnazione new path
+                                path = handlingPath[1];
+                            }else{
+                                // abbiamo solo un mex di avviso risultato operazione
+                                responseResultExe = handlingResponse;
+                            }
+                            //VISUALIZZAZIONE RISPOSTA
+                            System.out.println(responseResultExe ); // risposta dal server
 
+                        }// fine if operazione valida
+
+                    }else {
+                        System.out.println("Exiting....");
+                    } //if exits close
+                }//fine ciclo while operazione
+            }else{
+                // Caso Login errato
+                System.out.println("400 Bad Request");
+            }
         }
+}
+/*
+ * OPERAZIONI DA IMPLEMENTARE nella demo:
+ * CD, cambio dir puo' essere scomposto in:
+ *          HOME      -> path iniziale: mando come parametro username e mi ritorna il path la pagina hub
+ *          Back      -> indietro di una cartella: mando path e mi ritorna path nuovo + controllare che non sono nella cartella /var/www/html/Data/username
+ *          Forward   -> vado avanti con il percorso: invio path + cartella esistente, controllo che cartella esiste e se 0K fornisco nuovo path
+ *
+ * Visualizzazione: come ho implementato sopra connessione con la pagina visualizzazione.php
+ * UF
+ * DF
+ * MKDIR
+ * RMDIR
+ * RF
+ * MFDIR
+ * CurD: mostra la corrente dir. es: /cartella1/cartella2 come nel sito, dove / means home
+ * Vis: mostra contenuto, richiamo visualizzazione.php come prima
+ * exit: esco dal ciclo operazioni della demo (qua nel client)
+ */
 }
 
