@@ -6,10 +6,12 @@ import java.lang.Integer;
 public class Client {
 
         public static void main(String[] args) throws Exception {
+            System.out.println("----------------------------------"); // per formattazione
             System.out.println("Benvenuto nella demo!");
+            System.out.println("----------------------------------"); // per formattazione
             //avvio una connesione via http
-            URL url = new URL("http","serverwebuni.ns0.it",580,"/php/TokenGeneratorDK.php");
-
+            //URL url = new URL("http","serverwebuni.ns0.it",580,"/php/TokenGeneratorDK.php");
+            URL url = new URL("http","185.230.163.214",80,"/php/TokenGeneratorDK.php");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             //con.connect();
@@ -26,39 +28,50 @@ public class Client {
             os.write(message.getBytes());
             os.flush();
             os.close();
-
+            //return 200
             //int responseCode = con.getResponseCode();
             //System.out.println("Response code: " + responseCode);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+           BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
             in.close();
-            String BuffRicevuto = response.toString();
-            System.out.println("Response Body: " + BuffRicevuto .toString());
+
+            //String BuffRicevuto = response.toString();
+            //System.out.println("Response Body: " + BuffRicevuto .toString());
 
             //splitting
             // con.disconnect();
+
             String inf = response.toString();
+
             String[] parts = inf.split("/");
             int iduser = -1; //Valore negativo perche' non e' stato ancora modificato
             String Status = parts[0]; // noi ritorniamo 202  = 'Accepted';
+            //System.out.println(inf);
 
             if(Status.equals("202")){ //connessione accettata quindi posso lavorarci (aggiungere su TokenizerGeneratorDK.php
                 String Stringid = parts[1];
                 iduser = Integer.parseInt(Stringid);    //assegnazione valore ID ottenuto dal server
                 // reminder delle informazioni disponibili dal client
-                System.out.println("Informazioni:");
+                System.out.println("----------------------------------"); // per formattazione
+                System.out.println("Informazioni utili:");
                 System.out.println("ID USER: "+iduser);
                 System.out.println("USERNAME: "+username);
+                System.out.println("----------------------------------"); // per formattazione
 
+                //ottengo path da pagina visualizza.php
+                String path = "/var/www/html/Data/"+username;
 
                 //gestione path e visualizzazione file folder disponibili nella working directory
                 // pagina visualizzazione.php da creare
-                URL urlVis = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+
+
+                //URL urlVis = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+                URL urlVis = new URL("http","185.230.163.214",80, "/php/visualizzazione.php");
                 HttpURLConnection conVis = (HttpURLConnection) urlVis.openConnection();
                 conVis.setRequestMethod("POST");
                 conVis.setDoOutput(true);
@@ -66,19 +79,18 @@ public class Client {
                  * confrontare identita' user e per ottenere path base:
                  * /var/www/html/Data/username
                  */
-                String messageVis ="username="+username+"&id="+iduser;
+                String messageVis ="username="+username+"&id="+iduser+"&path="+path;
                 OutputStream osVis = conVis.getOutputStream();
                 osVis.write(messageVis.getBytes());
                 osVis.flush();
                 osVis.close();
-                int responseCodeVis = conVis.getResponseCode();
-                System.out.println("Response code: " + responseCodeVis);
+                //int responseCodeVis = conVis.getResponseCode();
+                //System.out.println("Response code: " + responseCodeVis);
                 BufferedReader inVis = new BufferedReader(new InputStreamReader(conVis.getInputStream()));
                 String inputLineVis;
                 StringBuffer responseVis = new StringBuffer();
                 while ((inputLineVis = inVis.readLine()) != null) {
                     responseVis.append(inputLineVis);  // mex risposta dal server dell'operazione eseguita
-                    responseVis.append("/");
                 }
                 inVis.close();
                 // arrivati a questo punto ho un formato: file.txt/file2.png/Folder1
@@ -87,122 +99,157 @@ public class Client {
                 String[] visFileFolder = feedback.split("/");
 
                 System.out.println("Contenuto della working directory HOME:");
+                System.out.println("----------------------------------"); // per formattazione
                 for(int i=0;i<visFileFolder.length;i++){
                     // visualizzazione contenuto
-                    System.out.print(visFileFolder[i]+" ");
+                    System.out.println(visFileFolder[i]); // METTERE A CASO
                 }
-                System.out.println();// a capo per formattazione
-                /* arrivato a questo punto, teoricamente abbiamo effettuato la connessione con TokenGeneratorDK.php e se credenziali corrette:
-                 * - visualizzato la Home directory contenuto
-                 *  DA IMPLEMENTARE PER VIS:
-                 *  visualizzazione.php
-                 * - ORA:
-                 * - ciclo operazione automatizzato
-                 */
+                System.out.println("----------------------------------"); // per formattazione
+                System.out.println("Premi invio per continuare...");
+                String spazio = scanner.nextLine();
 
-                // ???????
-                String path=null;
-
-                System.out.println("Ciclo Operazione inizio:");
-                System.out.println();
+                //System.out.println("Ciclo Operazione inizio:");
+                //System.out.println();
                 String operazione = "";
                 while (!(operazione.equals("exit"))) {
                     // Showing menu operation
                     System.out.println("Seleziona l'operazione disponibile:");
+                    System.out.println("----------------------------------"); // per formattazione
                     System.out.println("Elenco: <HM>-Return Home Dir");
                     System.out.println("        <BK>-Return Back Dir");
                     System.out.println("        <FW>-Go Forward Dir");
-                    System.out.println("        <UF>-Upload File");
-                    System.out.println("        <DF>-Download File");
+                    /*System.out.println("        <UF>-Upload File");
+                    System.out.println("        <DF>-Download File");*/
                     System.out.println("        <MKDIR>-Crea Folder");
                     System.out.println("        <RMDIR>-Rimuovi Folder");
-                    System.out.println("        <RF>-Rimuovi File");
+                   /* System.out.println("        <RF>-Rimuovi File");*/
                     System.out.println("        <MFDIR>-Modifica Folder");
                     System.out.println("        <CurD>-Show Current Dir");
                     System.out.println("        <Vis>-Visualizza contenuto Current Dir");
-                    System.out.println("        <exit>- Chiudi Sessione");
+                    System.out.println("        <exit>- Chiudi Applicazione");
+                    System.out.println("----------------------------------"); // per formattazione
                     // lettura operazione
                     operazione = scanner.nextLine();
-                    System.out.println("Operazione selezionata: " + operazione);
+                    //visualizzazione operazione selezionata
+                    //System.out.println("Operazione selezionata: " + operazione);
+
                     if(!(operazione.equals("exit"))) {
-                        System.out.println("Esecuzione....");
+                        System.out.println("Esecuzione...");
+
                         // Handling della operazione process
                         //per passare i parametri necessari al fine di completare la operazione
                         String messageExe = null;
                         Boolean operazioneValida=true;
                         // switch gestione iniziale delle operazioni per inoltrare ad Hub.php i corretti parametri
-                        // devo gestire le op: HM,BK,FW,UF,DF,MKDIR,RMDIR,RF,MFDIR
+                        String nameFolder;
                         switch(operazione){
                             case "HM": //case Home
-                                messageExe ="username="+username+"&id="+iduser;break;
+                                path = "/var/www/html/Data/"+username;
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("Status operazione: Ritornato nella Home");
+                                System.out.println("----------------------------------"); // per formattazione
+                                operazioneValida=false;
+                                break;
+                                //operazione da sistemare!
                             case "BK": //case Back
-                                messageExe="path="+path+"&username="+username+"&id="+iduser;break;
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&operazione="+operazione;
+                                operazioneValida=true;
+                                break;
                             case "FW": //case Forward
+                                System.out.println("----------------------------------"); // per formattazione
                                 //richiesta cartella per andare avanti
                                 System.out.println("Fornisci il nome della cartella a cui vuoi accedere: ");
-                                String nameFolder = scanner.nextLine();
-                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&cartella="+nameFolder;break;
-                            case "UF": //case Upload
+                                nameFolder = scanner.nextLine();
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&cartella="+nameFolder+"&operazione="+operazione;break;
+
+                          /*  case "UF": //case Upload
                                 //messageExe=
                                 System.out.println("Operazione al momento non disponibile!");
                                 operazioneValida=false;break;
                             case "DF": // case Download
                                 System.out.println("Operazione al momento non disponibile! ");
-                                operazioneValida=false;break;
+                                operazioneValida=false;break;*/
                             case "MKDIR":  // case Creazione Folder
-                                System.out.println("Operazione al momento non disponibile!  ");
-                                operazioneValida=false;break;
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("Fornisci il nome della cartella a cui vuoi accedere: ");
+                                nameFolder = scanner.nextLine();
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&cartella="+nameFolder+"&operazione="+operazione;
+                                operazioneValida=true;break;
                             case "RMDIR": //case Remove Folder
-                                System.out.println("Operazione al momento non disponibile!   ");
-                                operazioneValida=false;break;
-                            case "RF":   //case Remove File
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("Fornisci il nome della cartella da rimuovere: ");
+                                nameFolder = scanner.nextLine();
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&cartella="+nameFolder+"&operazione="+operazione;
+                                operazioneValida=true;break;
+                           /* case "RF":   //case Remove File
                                 System.out.println("Operazione al momento non disponibile!    ");
-                                operazioneValida=false;break;
+                                operazioneValida=false;break;*/
                             case "MFDIR": //case Modify Folder
-                                System.out.println("Operazione al momento non disponibile!     ");
-                                operazioneValida=false;break;
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("Fornisci il nome della cartella da modificare: ");
+                                String oldFolderName = scanner.nextLine();
+                                System.out.println("Fornisci il nuovo nome della cartella: ");
+                                String newFolderName = scanner.nextLine();
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&oldNameFolder="+oldFolderName+"&newNameFolder="+newFolderName+"&operazione="+operazione;
+                                operazioneValida=true;break;
                             case "CurD": //case Current Dir show
-                                System.out.println("Current Dir: "+path);operazioneValida=false;break;
+                                messageExe="path="+path+"&username="+username+"&id="+iduser+"&operazione="+operazione;operazioneValida=true;
+                                break;
+                               // System.out.println("Current Dir: "+path);operazioneValida=true;break;
                             case "Vis": //case visualizzazione
                                 // stampo come prima:
-                                URL urlVisCiclo = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+                                //URL urlVisCiclo = new URL("http", "serverwebuni.ns0.it", 580, "/php/visualizzazione.php");
+                                URL urlVisCiclo = new URL("http","185.230.163.214",80, "/php/visualizzazione.php");
                                 HttpURLConnection conVisCiclo = (HttpURLConnection) urlVisCiclo.openConnection();
                                 conVisCiclo.setRequestMethod("POST");
                                 conVisCiclo.setDoOutput(true);
                                 //GESTIONE PATH?
+
                                 String messageVisCiclo ="username="+username+"&id="+iduser+"&path="+path; //if path set uso path, in visualizzazione, if not sono nella home caso principale sopra
                                 OutputStream osVisCiclo = conVisCiclo.getOutputStream();
                                 osVisCiclo.write(messageVisCiclo.getBytes());
                                 osVisCiclo.flush();
                                 osVisCiclo.close();
                                 BufferedReader inVisCiclo = new BufferedReader(new InputStreamReader(conVisCiclo.getInputStream()));
-                                String inputLineVisCiclo;
+                                String inputLineVisCiclo="";
                                 StringBuffer responseVisCiclo = new StringBuffer();
                                 while ((inputLineVisCiclo = inVisCiclo.readLine()) != null) {
                                     responseVisCiclo.append(inputLineVisCiclo);  // mex risposta dal server dell'operazione eseguita
-                                    responseVisCiclo.append("/");
                                 }
-                                inVis.close();
-                                feedback = responseVis.toString();
-                                visFileFolder=null;
-                                visFileFolder = feedback.split("/");
-
-                                System.out.println("Contenuto della working directory attuale: ");
-                                for(int i=0;i<visFileFolder.length;i++){
+                                inVisCiclo.close();
+                                feedback = responseVisCiclo.toString();
+                                String visFileFolderAttuale [] = feedback.split("/");
+                                //visFileFolder=null;
+                                //visFileFolder = feedback.split("/");
+                                String [] positionFolder = path.split("/");
+                                int pos = positionFolder.length - 1;
+                                System.out.println("Contenuto della working directory: "+positionFolder[pos]);
+                                System.out.println("----------------------------------"); // per formattazione
+                                for(int i=0;i<visFileFolderAttuale .length;i++){
                                     // visualizzazione contenuto
-                                    System.out.print(visFileFolder[i]+" ");
+                                    System.out.println(visFileFolderAttuale [i]);
                                 }
-                                System.out.println();// a capo per formattazione
+                                System.out.println("----------------------------------"); // per formattazione
                                 // linea teorica mi sono perso. quindi gl
                                 operazioneValida=false;break;
 
-                            default: System.out.println("La operazione che hai selezionata non e' possibile eseguila, magari hai sbagliato di scrivere!");operazioneValida=false;break;
+                            default:
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("La operazione che hai selezionata non e' possibile eseguila, magari hai sbagliato di scrivere!");operazioneValida=false;
+                                System.out.println("----------------------------------"); // per formattazione
+                                break;
                         }// chiuso switch
+
                         if(operazioneValida){
+                            System.out.println("Operazione inoltrata al server");
+                            //System.out.println(messageExe); //check parameter
                             // invio operazione:
                             //1 versione gestione, senza controllo ID in Hub.php
                             // connessione alla pagine Hub.php
-                            URL urlExe = new URL("http", "serverwebuni.ns0.it", 580, "/php/Hub.php");
+
+                            //URL urlExe = new URL("http", "serverwebuni.ns0.it", 580, "/php/Hub.php");
+                            //SISTEMARE QUA
+                            URL urlExe = new URL("http","185.230.163.214",80, "/php/Hub.php");
                             HttpURLConnection conExe = (HttpURLConnection) urlExe.openConnection();
                             conExe.setRequestMethod("POST");
                             conExe.setDoOutput(true);
@@ -222,29 +269,44 @@ public class Client {
                             //Handling operation on directory
                             String handlingResponse = responseExe.toString();
                             String responseResultExe;
-                            if(operazione.equals("HM")||operazione.equals("BK")||operazione.equals("FW")){
+
+                            if(operazione.equals("BK")||operazione.equals("FW")){
                                 // lavoriamo con dir
-                                String[] handlingPath = handlingResponse.split("/");
+                                String[] handlingPath = handlingResponse.split("-"); //MODIFICARE CON ? al posto di /
                                 responseResultExe = handlingPath[0];
                                 // assegnazione new path
-                                path = handlingPath[1];
+                                path = handlingPath[1]; //quando implementata abilitare
+                            }else if(operazione.equals("CurD")){
+                                String[] handlingPath = handlingResponse.split("-"); //MODIFICARE CON ? al posto di /
+                                System.out.println("----------------------------------"); // per formattazione
+                                System.out.println("Current Dir: "+handlingPath[1]);
+                                responseResultExe=handlingPath[0];
                             }else{
                                 // abbiamo solo un mex di avviso risultato operazione
                                 responseResultExe = handlingResponse;
                             }
                             //VISUALIZZAZIONE RISPOSTA
-                            System.out.println(responseResultExe ); // risposta dal server
+                            System.out.println("----------------------------------"); // per formattazione
+                            System.out.println("Status operazione: "+responseResultExe); // risposta dal server
+                            System.out.println("----------------------------------"); // per formattazione
 
-                        }// fine if operazione valida
+                        }// fine if operazione eseguibile sul server*/
 
+                        System.out.println("Premi invio per continuare...");
+                        spazio = scanner.nextLine();
                     }else {
-                        System.out.println("Exiting....");
+                        System.out.println("Exiting...");
                     } //if exits close
                 }//fine ciclo while operazione
             }else{
                 // Caso Login errato
-                System.out.println("400 Bad Request");
+                System.out.println("----------------------------------"); // per formattazione
+                System.out.println("Credenziali sbagliate");
+                System.out.println("----------------------------------"); // per formattazione
             }
+            System.out.println("----------------------------------"); // per formattazione
+            System.out.println("Grazie per aver usato la DEMO");
+            System.out.println("----------------------------------"); // per formattazione
         }
 }
 /*
@@ -265,5 +327,3 @@ public class Client {
  * Vis: mostra contenuto, richiamo visualizzazione.php come prima
  * exit: esco dal ciclo operazioni della demo (qua nel client)
  */
-}
-
