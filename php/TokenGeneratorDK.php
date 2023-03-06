@@ -1,6 +1,6 @@
 <?php
     require_once('../config/database.php');
-    require_once('../config/functions.php');
+    #require_once('../config/databaseVPS.php');
 
     if (!isset($_POST['username'], $_POST['password'])||($_POST['username']=="")||($_POST['password']=="")) {
         exit('Please fill both the username and password fields!');
@@ -19,9 +19,9 @@
     $user = $check->fetch(PDO::FETCH_ASSOC);
 
     if (!$user || password_verify($password, $user['password']) === false) {
-        echo "credenziali errate, riprova";
+        echo "400";
     } else {
-        echo "connessione riuscita!";
+        echo "202";
         #invio ID al client
         $sql = 'SELECT iduser
                 FROM users
