@@ -1,3 +1,4 @@
+//!Versione Vecchia!
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
@@ -20,7 +21,7 @@ public class Client {
     // ciclo verifica Account, caso True: procedo, caso False: reindirizzamento pagina registrazione sito Browser
     while (cicloAccount) {
       Scanner scannerAcc = new Scanner(System.in);
-      System.out.println("Hai gi‡ un account? [Y][N]");
+      System.out.println("Hai gi√† un account? [Y][N]");
       String accExists = scannerAcc.nextLine();
       if (accExists.equals("Y")) {
         //avvio una connesione via http per verificare login
@@ -255,7 +256,7 @@ public class Client {
                   File dir = new File(saveDir);
                   if (!dir.exists()) {
                     dir.mkdir();
-                    System.out.println("La cartella Download Ë stata creata con successo!");
+                    System.out.println("La cartella Download √® stata creata con successo!");
                     System.out.println("----------------------------------"); // per formattazione
                   }
                   System.out.println("Inizio fase di download file...");
@@ -316,12 +317,12 @@ public class Client {
                     inputStream.close();
                     outputStream.close();
                     System.out.println("----------------------------------"); // per formattazione
-                    System.out.println("Status operazione: "+ "Il File "+nameFile+" Ë stato scaricato e si trova nella cartella Download");
+                    System.out.println("Status operazione: "+ "Il File "+nameFile+" √® stato scaricato e si trova nella cartella Download");
                     System.out.println("----------------------------------"); // per formattazione
                   } else {
                     //else
                     System.out.println("----------------------------------"); // per formattazione
-                    System.out.println("Status operazione: Il File "+nameFile+" non Ë stato scaricato. Riprovare");
+                    System.out.println("Status operazione: Il File "+nameFile+" non √® stato scaricato. Riprovare");
                     System.out.println("----------------------------------"); // per formattazione
                   }
                   conDW.disconnect();
