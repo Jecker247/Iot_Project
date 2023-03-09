@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.codebind.Applicazione">
+  <grid id="27dc6" binding="panelMain" layout-manager="GridLayoutManager" row-count="17" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="805" height="484"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="3e554" class="javax.swing.JLabel" binding="TitleApplication">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="d5d30" class="javax.swing.JTextPane" binding="contextArea">
+        <constraints>
+          <grid row="5" column="1" row-span="11" col-span="1" vsize-policy="6" hsize-policy="6" anchor="8" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="250" height="250"/>
+            <maximum-size width="280" height="280"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="8f26e" class="javax.swing.JLabel" binding="CurrentDirWatching">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="b1227" class="javax.swing.JButton" binding="removeFile">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Remove File"/>
+        </properties>
+      </component>
+      <component id="4419f" class="javax.swing.JButton" binding="UploadFile">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Upload File"/>
+        </properties>
+      </component>
+      <component id="cdfe8" class="javax.swing.JLabel" binding="operazioneLabel">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Select Operation on files:"/>
+        </properties>
+      </component>
+      <component id="c9658" class="javax.swing.JToolBar$Separator">
+        <constraints>
+          <grid row="1" column="0" row-span="13" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="e9346" class="javax.swing.JToolBar$Separator">
+        <constraints>
+          <grid row="16" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4ae5c" class="javax.swing.JToolBar$Separator">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="9" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="ce8bb" class="javax.swing.JButton" binding="DownloadFile">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Download File"/>
+        </properties>
+      </component>
+      <component id="67ad5" class="javax.swing.JButton" binding="RemoveFolder">
+        <constraints>
+          <grid row="7" column="2" row-span="3" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Remove Folder"/>
+        </properties>
+      </component>
+      <component id="f4e9d" class="javax.swing.JButton" binding="ModifyFolder">
+        <constraints>
+          <grid row="7" column="4" row-span="3" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Modify Folder"/>
+        </properties>
+      </component>
+      <component id="5f0e4" class="javax.swing.JLabel" binding="OperationPosition">
+        <constraints>
+          <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Select operation on current position:"/>
+        </properties>
+      </component>
+      <component id="ce40a" class="javax.swing.JButton" binding="backwardButton" default-binding="true">
+        <constraints>
+          <grid row="14" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Backward"/>
+        </properties>
+      </component>
+      <component id="39d11" class="javax.swing.JButton" binding="Home">
+        <constraints>
+          <grid row="15" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Home"/>
+        </properties>
+      </component>
+      <component id="342" class="javax.swing.JButton" binding="InsertFolder">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Insert Folder"/>
+        </properties>
+      </component>
+      <component id="b3d54" class="javax.swing.JButton" binding="ForwardButton">
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Forward"/>
+        </properties>
+      </component>
+      <component id="aba15" class="javax.swing.JFormattedTextField" binding="Input1">
+        <constraints>
+          <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+            <maximum-size width="150" height="40"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="b764e" class="javax.swing.JLabel" binding="LabelInput1">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="62173" class="javax.swing.JButton" binding="sendingOperation">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="100" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Invio"/>
+        </properties>
+      </component>
+      <component id="59191" class="javax.swing.JTextArea" binding="ShowDir">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="15"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="a614" class="javax.swing.JLabel" binding="LabelStatusOperazione">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Status operazione:"/>
+        </properties>
+      </component>
+      <component id="a96c2" class="javax.swing.JTextArea" binding="StatusOperazione">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1118482"/>
+          <foreground color="-16777216"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <hspacer id="41a7c">
+        <constraints>
+          <grid row="5" column="7" row-span="3" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="aa654">
+        <constraints>
+          <grid row="8" column="7" row-span="9" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="d34e0" class="javax.swing.JFormattedTextField" binding="Input2">
+        <constraints>
+          <grid row="11" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+            <maximum-size width="150" height="40"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
